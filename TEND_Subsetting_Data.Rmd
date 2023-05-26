@@ -1,0 +1,81 @@
+---
+title: "TEND_Subsetting_Data"
+author: "Me"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=TRUE, echo=TRUE}
+knitr::opts_chunk$set(root.dir = "C:C:\\Users\\adcre\\OneDrive\\Documents\\R_Programming\\TEND",
+                      echo = TRUE)
+getwd()
+```
+
+## Adding libraries/packages
+
+```{r prep, include=T, echo=F}
+library(tidyverse) 
+# Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for data tidying, 'readr' for data import, 'purrr' for functional programming, 'tibble' for (tibbles) a modern re-imagining of data frames, 'stringr' for strings,and 'forcats' for factors
+library(foreign) 
+# Read data stored by SPSS and Stata
+library(psych) 
+# For personality, psychometric, and psychological research, includes describe function and error bars
+library(stargazer) 
+# Handy regression tables
+library(readr)
+```
+
+## R Markdown
+##### This markdown will serve as a reference sheet for different subsetting methods, packages, applications, and more. More specifically, how to subset data casewise, listwise, by ID, or by variable. Having a large and complex df could prevent you from gaining insight about specific data. Having the ability to call for certain ID numbers or variables, like gender or age, allows you to use a magnifying glass on your large df. I also plan on learning and practicing substringing values, and being able to remove the "sub" from "sub-xxxx" in the subject ID column. The key differences between substringing snd subsetting is that substringing is applied to character strings like text files, and can outout specific ranges or positions in a long character string. A subset is more widely used because it can be applied to data frames and other data structures. Based off of certain arguments or criteria, a subset can give you a closer look on specific points in your data structure. Subsets are represented by brackets[], and more of the syntax will be learned with time and practice.
+
+##### The first code chunk will be examples of subsetting on a simple data structure that is created within the chunk. In the interest of truly being able to apply these skills, I will use a df imported from Kaggle after this code chunk in order to test it in a real-life situation.
+
+```{r subset}
+# We will first create a df that allows us to visualize subsetting, and learn the syntax used to call for certain variables like people aged over 30.
+
+# Create a data frame
+df <- data.frame(
+  Name = c("John", "Emily", "David", "Sarah", "Michael"),
+  Age = c(25, 32, 28, 35, 30),
+  City = c("New York", "London", "Paris", "Tokyo", "Sydney")
+)
+
+# Print the data frame
+print(df)
+
+# Notice the use of brackets[] and a dollar sign$ to indicate that you want to subset, and that you would like to subset a specific column, respectively. In this example, we also pass a condition that the Age must be greater than 30. In other words, I want to see the data for participants over 30 years old.
+
+# Subset the data frame by age
+subset_df <- df[df$Age > 30, ]
+
+# Print the subsetted data frame
+print(subset_df)
+```
+
+##### Let's try subsetting by variables and conditions on a more realistic data set found on Kaggle. We will explore the same data set found in my "Importing_Data_Sets" repo, the Depression Dataset found at this link on Kaggle: https://www.kaggle.com/datasets/arashnic/the-depression-dataset 
+##### This data set is represented as 'unzipped_data'in my Files
+
+```{r kaggle subset, include=TRUE, echo=TRUE}
+# First, I will load in the scores from the selected dataset. It can be done many ways, and should be well understood at this point.
+dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+str(dep_scores)
+
+# By using str(), I can view the different columns by name. This is essentially a list of the variables that you can subset by, and we will try our best to navigate through this data via subsetting and adding conditions. Off the bat, we notice that there is indeed an age column. HOWEVER, it is actually in character form, not numeric!! This is because the creator of this data set has made columns that represent age ranges rather than putting the age as a column for any number. This slightly changes the code we will use to subset certain ages, but we will be doing effectively the same job.
+dep_subset <- dep_scores[dep_scores$age == "40-44", ]
+print(dep_subset)
+
+# Notice that we used '==" instead of the logical condition '<' or '>'. So, rather than calling for subjects older than 30 years, we are calling for an age range 40-44 by calling for the specific character string '40-44'. 
+# What if I wanted to call for a specific ID? There is a 'number' column, and each subject is either represented by 'conditon_X' or 'control_X', for example. This will actually be done by the same syntax as the age range subset example above, because they are represented by character strings.
+test_subject1 <- dep_scores[dep_scores$number == "condition_1", ]
+control_subject1 <- dep_scores[dep_scores$number == "control_1", ]
+View(control_subject1)
+View(test_subject1)
+
+
+```
+
+### DURING-Session REFLECTION
+
+### POST-Session REFLECTION
