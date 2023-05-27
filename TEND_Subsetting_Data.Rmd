@@ -58,6 +58,21 @@ subset_df <- df[df$Age > 30, ]
 print(subset_df)
 ```
 
+## Quick note: is.na()
+##### a logical function that checks the given the data structure and returns TRUE if there are missing values
+## Operators
+##### operaqtors like '!' and '&' can be useful when used properly, like in conjuction with functions within a code chunk. While they don't necessarily do anything powerful, they are very useful when used !
+```{r}
+# first, let's look at is.na(), '&', and '!' in action on the TEND example data
+Brain_Data <- read.csv("Brain_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
+Behavioral_Data<-read.csv("Bx_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
+DATA <- merge(Brain_Data, Behavioral_Data, "ID", all=T)
+
+# With this line of code, we are extracting all of the cases that did not have missing values in the specified column. 
+SUBdata<- subset(DATA, !is.na(DATA$CDRSR_total) & !is.na(DATA$RSFC1))
+View(SUBdata)
+```
+
 ##### Let's try subsetting by variables and conditions on a more realistic data set found on Kaggle. We will explore the same data set found in my "Importing_Data_Sets" repo, the Depression Dataset found at this link on Kaggle: <https://www.kaggle.com/datasets/arashnic/the-depression-dataset>
 
 ##### This data set is represented as 'scores.csv'in my Files
@@ -131,6 +146,16 @@ str(condition_df)
 str(control_df)
 ```
 
+## Subsetting Alternatives
+##### Below are some very useful examples that Johanna offered as alternatives to the more complex syntax or functions previously mentioned
+```{r subset alt, include=TRUE, echo=TRUE}
+# This code chunk contains many different ways to extract rows and columns with more simple syntax.
+dep_scores[,] # all rows and all columns
+dep_scores[1,] #first row and all columns
+dep_scores[1:10,] #first 10 rows and all columns
+dep_scores[c(1,3),1:10] #first and third row and the first 10 columns
+```
+
 ### Substringing
 
 ##### Let's say we had a data frame, but in our subject's row3, there is a prefix called "sub\_". This means that each case is represented as 'sub_XXXX'. If I wanted to remove that prefixd, or any prefixes for that matter, I would use substringing! Substringing is useful when you know the specific ranges or positions that you want to call for. In this case, we know that the last 4 characters are the ID, and we don't need the prefix. This code will show you how to solve this problem, so that subjects are only represented by integers, not a prefix as well.
@@ -166,16 +191,7 @@ print(dep_scores)
 # I want to emphasize that we only practed that method for the sake of practice. It may be counterproductive to remove the prefixes because they offer info about the subject data that could be crucial later on. Think before using this method what the programmatic implications are.
 ```
 
-```{r substring and subset, include=F, echo=F}
-dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
-str(dep_scores)
-
-# First
-# Next, we will use the subsetting and substringing method together to remove both prefixes individually. We will actually use the 
-
-
-```
-
 ### DURING-Session REFLECTION
-
+##### I want to thank Krupali, who helped me find my way when navigating this software. I was in need of some short-term goals, and she helped contextualize RStudio in a way that inspired me to get back to the computer and keep gouing! Thank you, Krupali!
 ### POST-Session REFLECTION
+##### TBD....

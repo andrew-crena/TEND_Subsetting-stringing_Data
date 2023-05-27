@@ -446,6 +446,30 @@ print(subset_df)</code></pre>
 ## 2 Emily  32 London
 ## 4 Sarah  35  Tokyo</code></pre>
 </div>
+</div>
+</div>
+<div id="quick-note-is.na" class="section level2">
+<h2>Quick note: is.na()</h2>
+<div id="a-logical-function-that-checks-the-given-the-data-structure-and-returns-true-if-there-are-missing-values" class="section level5">
+<h5>a logical function that checks the given the data structure and
+returns TRUE if there are missing values</h5>
+</div>
+</div>
+<div id="operators" class="section level2">
+<h2>Operators</h2>
+<div id="operaqtors-like-and-can-be-useful-when-used-properly-like-in-conjuction-with-functions-within-a-code-chunk.-while-they-dont-necessarily-do-anything-powerful-they-are-very-useful-when-used" class="section level5">
+<h5>operaqtors like ‘!’ and ‘&amp;’ can be useful when used properly,
+like in conjuction with functions within a code chunk. While they don’t
+necessarily do anything powerful, they are very useful when used !</h5>
+<pre class="r"><code># first, let&#39;s look at is.na(), &#39;&amp;&#39;, and &#39;!&#39; in action on the TEND example data
+Brain_Data &lt;- read.csv(&quot;Brain_Data.csv&quot;, header=T, sep=&quot;,&quot;, na.strings=c(&quot;NA&quot;, &quot;888&quot;, &quot;999&quot;))
+Behavioral_Data&lt;-read.csv(&quot;Bx_Data.csv&quot;, header=T, sep=&quot;,&quot;, na.strings=c(&quot;NA&quot;, &quot;888&quot;, &quot;999&quot;))
+DATA &lt;- merge(Brain_Data, Behavioral_Data, &quot;ID&quot;, all=T)
+
+# With this line of code, we are extracting all of the cases that did not have missing values in the specified column. 
+SUBdata&lt;- subset(DATA, !is.na(DATA$CDRSR_total) &amp; !is.na(DATA$RSFC1))
+View(SUBdata)</code></pre>
+</div>
 <div id="lets-try-subsetting-by-variables-and-conditions-on-a-more-realistic-data-set-found-on-kaggle.-we-will-explore-the-same-data-set-found-in-my-importing_data_sets-repo-the-depression-dataset-found-at-this-link-on-kaggle-httpswww.kaggle.comdatasetsarashnicthe-depression-dataset" class="section level5">
 <h5>Let’s try subsetting by variables and conditions on a more realistic
 data set found on Kaggle. We will explore the same data set found in my
@@ -630,6 +654,57 @@ str(condition_df)</code></pre>
 ##  $ madrs2   : num [1:32] NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 </div>
 </div>
+<div id="subsetting-alternatives" class="section level2">
+<h2>Subsetting Alternatives</h2>
+<div id="below-are-some-very-useful-examples-that-johanna-offered-as-alternatives-to-the-more-complex-syntax-or-functions-previously-mentioned" class="section level5">
+<h5>Below are some very useful examples that Johanna offered as
+alternatives to the more complex syntax or functions previously
+mentioned</h5>
+<pre class="r"><code># This code chunk contains many different ways to extract rows and columns with more simple syntax.
+dep_scores[,] # all rows and all columns</code></pre>
+<pre><code>## # A tibble: 55 × 12
+##    number       days gender age   afftype melanch inpatient edu   marriage  work
+##    &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 condition_1    11      2 35-39       2       2         2 6-10         1     2
+##  2 condition_2    18      2 40-44       1       2         2 6-10         2     2
+##  3 condition_3    13      1 45-49       2       2         2 6-10         2     2
+##  4 condition_4    13      2 25-29       2       2         2 11-15        1     1
+##  5 condition_5    13      2 50-54       2       2         2 11-15        2     2
+##  6 condition_6     7      1 35-39       2       2         2 6-10         1     2
+##  7 condition_7    11      1 20-24       1      NA         2 11-15        2     1
+##  8 condition_8     5      2 25-29       2      NA         2 11-15        1     2
+##  9 condition_9    13      2 45-49       1      NA         2 6-10         1     2
+## 10 condition_…     9      2 45-49       2       2         2 6-10         1     2
+## # ℹ 45 more rows
+## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>dep_scores[1,] #first row and all columns</code></pre>
+<pre><code>## # A tibble: 1 × 12
+##   number       days gender age   afftype melanch inpatient edu   marriage  work
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 condition_1    11      2 35-39       2       2         2 6-10         1     2
+## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>dep_scores[1:10,] #first 10 rows and all columns</code></pre>
+<pre><code>## # A tibble: 10 × 12
+##    number       days gender age   afftype melanch inpatient edu   marriage  work
+##    &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 condition_1    11      2 35-39       2       2         2 6-10         1     2
+##  2 condition_2    18      2 40-44       1       2         2 6-10         2     2
+##  3 condition_3    13      1 45-49       2       2         2 6-10         2     2
+##  4 condition_4    13      2 25-29       2       2         2 11-15        1     1
+##  5 condition_5    13      2 50-54       2       2         2 11-15        2     2
+##  6 condition_6     7      1 35-39       2       2         2 6-10         1     2
+##  7 condition_7    11      1 20-24       1      NA         2 11-15        2     1
+##  8 condition_8     5      2 25-29       2      NA         2 11-15        1     2
+##  9 condition_9    13      2 45-49       1      NA         2 6-10         1     2
+## 10 condition_…     9      2 45-49       2       2         2 6-10         1     2
+## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>dep_scores[c(1,3),1:10] #first and third row and the first 10 columns</code></pre>
+<pre><code>## # A tibble: 2 × 10
+##   number       days gender age   afftype melanch inpatient edu   marriage  work
+##   &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 condition_1    11      2 35-39       2       2         2 6-10         1     2
+## 2 condition_3    13      1 45-49       2       2         2 6-10         2     2</code></pre>
+</div>
 <div id="substringing" class="section level3">
 <h3>Substringing</h3>
 <div id="lets-say-we-had-a-data-frame-but-in-our-subjects-row3-there-is-a-prefix-called-sub_.-this-means-that-each-case-is-represented-as-sub_xxxx.-if-i-wanted-to-remove-that-prefixd-or-any-prefixes-for-that-matter-i-would-use-substringing-substringing-is-useful-when-you-know-the-specific-ranges-or-positions-that-you-want-to-call-for.-in-this-case-we-know-that-the-last-4-characters-are-the-id-and-we-dont-need-the-prefix.-this-code-will-show-you-how-to-solve-this-problem-so-that-subjects-are-only-represented-by-integers-not-a-prefix-as-well." class="section level5">
@@ -719,9 +794,18 @@ print(dep_scores)</code></pre>
 </div>
 <div id="during-session-reflection" class="section level3">
 <h3>DURING-Session REFLECTION</h3>
+<div id="i-want-to-thank-krupali-who-helped-me-find-my-way-when-navigating-this-software.-i-was-in-need-of-some-short-term-goals-and-she-helped-contextualize-rstudio-in-a-way-that-inspired-me-to-get-back-to-the-computer-and-keep-gouing-thank-you-krupali" class="section level5">
+<h5>I want to thank Krupali, who helped me find my way when navigating
+this software. I was in need of some short-term goals, and she helped
+contextualize RStudio in a way that inspired me to get back to the
+computer and keep gouing! Thank you, Krupali!</h5>
+</div>
 </div>
 <div id="post-session-reflection" class="section level3">
 <h3>POST-Session REFLECTION</h3>
+<div id="tbd." class="section level5">
+<h5>TBD….</h5>
+</div>
 </div>
 </div>
 
