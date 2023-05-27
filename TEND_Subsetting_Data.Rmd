@@ -32,6 +32,8 @@ library(readr)
 
 ##### This markdown will serve as a reference sheet for different subsetting methods, packages, applications, and more. More specifically, how to subset data casewise, listwise, by ID, or by variable. Having a large and complex df could prevent you from gaining insight about specific data. Having the ability to call for certain ID numbers or variables, like gender or age, allows you to use a magnifying glass on your large df. I also plan on learning and practicing substringing values, and being able to remove the "sub" from "sub-xxxx" in the subject ID column. The key differences between substringing and subsetting is that substringing is applied to character strings like text files, and can output specific ranges or positions in a long character string. A subset is more widely used because it can be applied to data frames and other data structures. Based off of certain arguments or criteria, a subset can give you a closer look on specific points in your data structure. Subsets are represented by brackets[], and more of the syntax will be learned with time and practice.
 
+### Subsetting
+
 ##### The first code chunk will be examples of subsetting on a simple data structure that is created within the chunk. In the interest of truly being able to apply these skills, I will use a df imported from Kaggle after this code chunk in order to test it in a real-life situation.
 
 ```{r subset, include=TRUE, echo=TRUE}
@@ -87,7 +89,10 @@ View(new_subset)
 ```
 
 ##### This next code chunk will look into subsetting list-wise and case-wise!
+
 ##### What are the key differences between these methods of subsetting, and when would you use them?
+
+###### To quote GPT-4, "In summary, case-wise subsetting involves selecting specific rows based on conditions, while list-wise subsetting involves selecting specific columns."
 
 ```{r case-wise and list-wise, include=T, echo=T}
 # Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You could set criteria for the rows you would like returned, or specify one case you are interested in
@@ -97,19 +102,79 @@ View(new_subset)
 dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
 str(dep_scores)
 
-# First, we will look at case-wise subsetting. There is a 'days' column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
+# First, we will look at CASE-WISE subsetting. There is a 'days' column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
 subset_twowksubs <- dep_scores[dep_scores$days > 13, ]
 View(subset_twowksubs)
 # Now, it will return cases that are 2 weeks old or older! Thus, case-wise subsetting
 
-# It's time to look at list-wise subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for 'concatenate', or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
+# It's time to look at LIST-WISE subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for 'concatenate', or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
 
 # You will notice that we start the [] section of the following code with a ','. This simply means that we will be including all of the rows in the data set. The same goes for the opposite regarding columns, as you may have seen earlier.
 listwise_subs <- dep_scores[ , c("age", "afftype", "edu")]
 View(listwise_subs)
-
 ```
 
+#### grep! this function is from base R, and is used when pattern maqtching is needed, in this case, for a subset of prefixed rows.
+```{r}
+# For our Kaggle data set, there appears to be two prefixes in the 'number' column. This chunk will show you how to subset the 'condition_' prefix group and the 'control_' group out of the data set. This might serve useful later on!**
+dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+print(dep_scores)
+
+# Subset only the "condition" rows
+condition_df <- dep_scores[grep("^condition_", dep_scores$number), ]
+
+# Subset only the "control" rows
+control_df <- dep_scores[grep("^control_", dep_scores$number), ]
+
+# Check the subsetted data frames
+str(condition_df)
+str(control_df)
+```
+
+### Substringing
+
+##### Let's say we had a data frame, but in our subject's row3, there is a prefix called "sub\_". This means that each case is represented as 'sub_XXXX'. If I wanted to remove that prefixd, or any prefixes for that matter, I would use substringing! Substringing is useful when you know the specific ranges or positions that you want to call for. In this case, we know that the last 4 characters are the ID, and we don't need the prefix. This code will show you how to solve this problem, so that subjects are only represented by integers, not a prefix as well.
+
+```{r substringing, include=T, echo=T}
+# To stay consistent, we will first create a simple data set wi9thin our code to visualize and practice substringing. After that, we will explore the Kaggle depression data set.
+# Substr() takes three arguments: the character vector being modified, the starting position, and the ending position. the starting/ending position i8s pre-determined by the specific range/position of the charcter vector you are interested in. In this case, we want to start at'5' and end at '8'.
+
+#First, create the df
+substr_df <- data.frame(
+  ParticipantID = c("sub_1234", "sub_5678", "sub_9101", "sub_2345"),
+  Score = c(15, 20, 18, 22),
+  stringsAsFactors = FALSE
+)
+
+# Remove the prefix with substr(), no need to assign a variable!
+substr_df$ParticipantID <- substr(substr_df$ParticipantID, start = 5, stop = 8)
+print(substr_df)
+```
+
+##### Now that we have looked at a basic example of substringing to remove unwanted prefixes, let's try it on our Kaggle depression data set
+
+```{r substringing Kaggle}
+dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+str(dep_scores)
+
+# Using str() allows me to peek at the names of the rows that pertain to certain subjects. What I notice about the Kaggle data set is that there is a prefix "condition_" that comes before each subject id, as well as a "control_" prefix. I will provide the method of using sub() and substr().
+
+# First, the method using sub()
+dep_scores$number <- sub("^condition_|^control_", "", dep_scores$number)
+print(dep_scores)
+
+# I want to emphasize that we only practed that method for the sake of practice. It may be counterproductive to remove the prefixes because they offer info about the subject data that could be crucial later on. Think before using this method what the programmatic implications are.
+```
+
+```{r substring and subset, include=F, echo=F}
+dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+str(dep_scores)
+
+# First
+# Next, we will use the subsetting and substringing method together to remove both prefixes individually. We will actually use the 
+
+
+```
 
 ### DURING-Session REFLECTION
 

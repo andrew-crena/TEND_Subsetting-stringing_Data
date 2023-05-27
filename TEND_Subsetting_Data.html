@@ -361,7 +361,7 @@ display: none;
                       Documents\\Desktop_RStudio&quot;,
                       echo = TRUE)
 getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/Desktop_RStudio&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Desktop/Desktop_RStudio&quot;</code></pre>
 <div id="adding-librariespackages" class="section level2">
 <h2>Adding libraries/packages</h2>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -411,6 +411,8 @@ or criteria, a subset can give you a closer look on specific points in
 your data structure. Subsets are represented by brackets[], and more of
 the syntax will be learned with time and practice.</h5>
 </div>
+<div id="subsetting" class="section level3">
+<h3>Subsetting</h3>
 <div id="the-first-code-chunk-will-be-examples-of-subsetting-on-a-simple-data-structure-that-is-created-within-the-chunk.-in-the-interest-of-truly-being-able-to-apply-these-skills-i-will-use-a-df-imported-from-kaggle-after-this-code-chunk-in-order-to-test-it-in-a-real-life-situation." class="section level5">
 <h5>The first code chunk will be examples of subsetting on a simple data
 structure that is created within the chunk. In the interest of truly
@@ -519,6 +521,10 @@ case-wise!</h5>
 <div id="what-are-the-key-differences-between-these-methods-of-subsetting-and-when-would-you-use-them" class="section level5">
 <h5>What are the key differences between these methods of subsetting,
 and when would you use them?</h5>
+<div id="to-quote-gpt-4-in-summary-case-wise-subsetting-involves-selecting-specific-rows-based-on-conditions-while-list-wise-subsetting-involves-selecting-specific-columns." class="section level6">
+<h6>To quote GPT-4, “In summary, case-wise subsetting involves selecting
+specific rows based on conditions, while list-wise subsetting involves
+selecting specific columns.”</h6>
 <pre class="r"><code># Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You could set criteria for the rows you would like returned, or specify one case you are interested in
 # List-wise, on the other hand, is for when we would like to include all of the data from specific variables, or columns. Almost as if you chop down unwanted columns from the data frame to create a new, slimmer one. This is how you are using a magnifying glass with subsetting!
 
@@ -554,16 +560,162 @@ str(dep_scores)</code></pre>
 ##   ..   madrs2 = col_double()
 ##   .. )
 ##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
-<pre class="r"><code># First, we will look at case-wise subsetting. There is a &#39;days&#39; column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
+<pre class="r"><code># First, we will look at CASE-WISE subsetting. There is a &#39;days&#39; column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
 subset_twowksubs &lt;- dep_scores[dep_scores$days &gt; 13, ]
 View(subset_twowksubs)
 # Now, it will return cases that are 2 weeks old or older! Thus, case-wise subsetting
 
-# It&#39;s time to look at list-wise subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for &#39;concatenate&#39;, or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
+# It&#39;s time to look at LIST-WISE subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for &#39;concatenate&#39;, or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
 
 # You will notice that we start the [] section of the following code with a &#39;,&#39;. This simply means that we will be including all of the rows in the data set. The same goes for the opposite regarding columns, as you may have seen earlier.
 listwise_subs &lt;- dep_scores[ , c(&quot;age&quot;, &quot;afftype&quot;, &quot;edu&quot;)]
 View(listwise_subs)</code></pre>
+</div>
+</div>
+<div id="grep-this-function-is-from-base-r-and-is-used-when-pattern-maqtching-is-needed-in-this-case-for-a-subset-of-prefixed-rows." class="section level4">
+<h4>grep! this function is from base R, and is used when pattern
+maqtching is needed, in this case, for a subset of prefixed rows.</h4>
+<pre class="r"><code># For our Kaggle data set, there appears to be two prefixes in the &#39;number&#39; column. This chunk will show you how to subset the &#39;condition_&#39; prefix group and the &#39;control_&#39; group out of the data set. This might serve useful later on!**
+dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
+print(dep_scores)</code></pre>
+<pre><code>## # A tibble: 55 × 12
+##    number       days gender age   afftype melanch inpatient edu   marriage  work
+##    &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 condition_1    11      2 35-39       2       2         2 6-10         1     2
+##  2 condition_2    18      2 40-44       1       2         2 6-10         2     2
+##  3 condition_3    13      1 45-49       2       2         2 6-10         2     2
+##  4 condition_4    13      2 25-29       2       2         2 11-15        1     1
+##  5 condition_5    13      2 50-54       2       2         2 11-15        2     2
+##  6 condition_6     7      1 35-39       2       2         2 6-10         1     2
+##  7 condition_7    11      1 20-24       1      NA         2 11-15        2     1
+##  8 condition_8     5      2 25-29       2      NA         2 11-15        1     2
+##  9 condition_9    13      2 45-49       1      NA         2 6-10         1     2
+## 10 condition_…     9      2 45-49       2       2         2 6-10         1     2
+## # ℹ 45 more rows
+## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
+<pre class="r"><code># Subset only the &quot;condition&quot; rows
+condition_df &lt;- dep_scores[grep(&quot;^condition_&quot;, dep_scores$number), ]
+
+# Subset only the &quot;control&quot; rows
+control_df &lt;- dep_scores[grep(&quot;^control_&quot;, dep_scores$number), ]
+
+# Check the subsetted data frames
+str(condition_df)</code></pre>
+<pre><code>## tibble [23 × 12] (S3: tbl_df/tbl/data.frame)
+##  $ number   : chr [1:23] &quot;condition_1&quot; &quot;condition_2&quot; &quot;condition_3&quot; &quot;condition_4&quot; ...
+##  $ days     : num [1:23] 11 18 13 13 13 7 11 5 13 9 ...
+##  $ gender   : num [1:23] 2 2 1 2 2 1 1 2 2 2 ...
+##  $ age      : chr [1:23] &quot;35-39&quot; &quot;40-44&quot; &quot;45-49&quot; &quot;25-29&quot; ...
+##  $ afftype  : num [1:23] 2 1 2 2 2 2 1 2 1 2 ...
+##  $ melanch  : num [1:23] 2 2 2 2 2 2 NA NA NA 2 ...
+##  $ inpatient: num [1:23] 2 2 2 2 2 2 2 2 2 2 ...
+##  $ edu      : chr [1:23] &quot;6-10&quot; &quot;6-10&quot; &quot;6-10&quot; &quot;11-15&quot; ...
+##  $ marriage : num [1:23] 1 2 2 1 2 1 2 1 1 1 ...
+##  $ work     : num [1:23] 2 2 2 1 2 2 1 2 2 2 ...
+##  $ madrs1   : num [1:23] 19 24 24 20 26 18 24 20 26 28 ...
+##  $ madrs2   : num [1:23] 19 11 25 16 26 15 25 16 26 21 ...</code></pre>
+<pre class="r"><code>str(control_df)</code></pre>
+<pre><code>## tibble [32 × 12] (S3: tbl_df/tbl/data.frame)
+##  $ number   : chr [1:32] &quot;control_1&quot; &quot;control_2&quot; &quot;control_3&quot; &quot;control_4&quot; ...
+##  $ days     : num [1:32] 8 20 12 13 13 13 13 13 13 8 ...
+##  $ gender   : num [1:32] 2 1 2 1 1 1 1 2 2 1 ...
+##  $ age      : chr [1:32] &quot;25-29&quot; &quot;30-34&quot; &quot;30-34&quot; &quot;25-29&quot; ...
+##  $ afftype  : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
+##  $ melanch  : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
+##  $ inpatient: num [1:32] NA NA NA NA NA NA NA NA NA NA ...
+##  $ edu      : chr [1:32] NA NA NA NA ...
+##  $ marriage : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
+##  $ work     : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
+##  $ madrs1   : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
+##  $ madrs2   : num [1:32] NA NA NA NA NA NA NA NA NA NA ...</code></pre>
+</div>
+</div>
+<div id="substringing" class="section level3">
+<h3>Substringing</h3>
+<div id="lets-say-we-had-a-data-frame-but-in-our-subjects-row3-there-is-a-prefix-called-sub_.-this-means-that-each-case-is-represented-as-sub_xxxx.-if-i-wanted-to-remove-that-prefixd-or-any-prefixes-for-that-matter-i-would-use-substringing-substringing-is-useful-when-you-know-the-specific-ranges-or-positions-that-you-want-to-call-for.-in-this-case-we-know-that-the-last-4-characters-are-the-id-and-we-dont-need-the-prefix.-this-code-will-show-you-how-to-solve-this-problem-so-that-subjects-are-only-represented-by-integers-not-a-prefix-as-well." class="section level5">
+<h5>Let’s say we had a data frame, but in our subject’s row3, there is a
+prefix called “sub_”. This means that each case is represented as
+‘sub_XXXX’. If I wanted to remove that prefixd, or any prefixes for that
+matter, I would use substringing! Substringing is useful when you know
+the specific ranges or positions that you want to call for. In this
+case, we know that the last 4 characters are the ID, and we don’t need
+the prefix. This code will show you how to solve this problem, so that
+subjects are only represented by integers, not a prefix as well.</h5>
+<pre class="r"><code># To stay consistent, we will first create a simple data set wi9thin our code to visualize and practice substringing. After that, we will explore the Kaggle depression data set.
+# Substr() takes three arguments: the character vector being modified, the starting position, and the ending position. the starting/ending position i8s pre-determined by the specific range/position of the charcter vector you are interested in. In this case, we want to start at&#39;5&#39; and end at &#39;8&#39;.
+
+#First, create the df
+substr_df &lt;- data.frame(
+  ParticipantID = c(&quot;sub_1234&quot;, &quot;sub_5678&quot;, &quot;sub_9101&quot;, &quot;sub_2345&quot;),
+  Score = c(15, 20, 18, 22),
+  stringsAsFactors = FALSE
+)
+
+# Remove the prefix with substr(), no need to assign a variable!
+substr_df$ParticipantID &lt;- substr(substr_df$ParticipantID, start = 5, stop = 8)
+print(substr_df)</code></pre>
+<pre><code>##   ParticipantID Score
+## 1          1234    15
+## 2          5678    20
+## 3          9101    18
+## 4          2345    22</code></pre>
+</div>
+<div id="now-that-we-have-looked-at-a-basic-example-of-substringing-to-remove-unwanted-prefixes-lets-try-it-on-our-kaggle-depression-data-set" class="section level5">
+<h5>Now that we have looked at a basic example of substringing to remove
+unwanted prefixes, let’s try it on our Kaggle depression data set</h5>
+<pre class="r"><code>dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
+str(dep_scores)</code></pre>
+<pre><code>## spc_tbl_ [55 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ number   : chr [1:55] &quot;condition_1&quot; &quot;condition_2&quot; &quot;condition_3&quot; &quot;condition_4&quot; ...
+##  $ days     : num [1:55] 11 18 13 13 13 7 11 5 13 9 ...
+##  $ gender   : num [1:55] 2 2 1 2 2 1 1 2 2 2 ...
+##  $ age      : chr [1:55] &quot;35-39&quot; &quot;40-44&quot; &quot;45-49&quot; &quot;25-29&quot; ...
+##  $ afftype  : num [1:55] 2 1 2 2 2 2 1 2 1 2 ...
+##  $ melanch  : num [1:55] 2 2 2 2 2 2 NA NA NA 2 ...
+##  $ inpatient: num [1:55] 2 2 2 2 2 2 2 2 2 2 ...
+##  $ edu      : chr [1:55] &quot;6-10&quot; &quot;6-10&quot; &quot;6-10&quot; &quot;11-15&quot; ...
+##  $ marriage : num [1:55] 1 2 2 1 2 1 2 1 1 1 ...
+##  $ work     : num [1:55] 2 2 2 1 2 2 1 2 2 2 ...
+##  $ madrs1   : num [1:55] 19 24 24 20 26 18 24 20 26 28 ...
+##  $ madrs2   : num [1:55] 19 11 25 16 26 15 25 16 26 21 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   number = col_character(),
+##   ..   days = col_double(),
+##   ..   gender = col_double(),
+##   ..   age = col_character(),
+##   ..   afftype = col_double(),
+##   ..   melanch = col_double(),
+##   ..   inpatient = col_double(),
+##   ..   edu = col_character(),
+##   ..   marriage = col_double(),
+##   ..   work = col_double(),
+##   ..   madrs1 = col_double(),
+##   ..   madrs2 = col_double()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<pre class="r"><code># Using str() allows me to peek at the names of the rows that pertain to certain subjects. What I notice about the Kaggle data set is that there is a prefix &quot;condition_&quot; that comes before each subject id, as well as a &quot;control_&quot; prefix. I will provide the method of using sub() and substr().
+
+# First, the method using sub()
+dep_scores$number &lt;- sub(&quot;^condition_|^control_&quot;, &quot;&quot;, dep_scores$number)
+print(dep_scores)</code></pre>
+<pre><code>## # A tibble: 55 × 12
+##    number  days gender age   afftype melanch inpatient edu   marriage  work
+##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 1         11      2 35-39       2       2         2 6-10         1     2
+##  2 2         18      2 40-44       1       2         2 6-10         2     2
+##  3 3         13      1 45-49       2       2         2 6-10         2     2
+##  4 4         13      2 25-29       2       2         2 11-15        1     1
+##  5 5         13      2 50-54       2       2         2 11-15        2     2
+##  6 6          7      1 35-39       2       2         2 6-10         1     2
+##  7 7         11      1 20-24       1      NA         2 11-15        2     1
+##  8 8          5      2 25-29       2      NA         2 11-15        1     2
+##  9 9         13      2 45-49       1      NA         2 6-10         1     2
+## 10 10         9      2 45-49       2       2         2 6-10         1     2
+## # ℹ 45 more rows
+## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
+<pre class="r"><code># I want to emphasize that we only practed that method for the sake of practice. It may be counterproductive to remove the prefixes because they offer info about the subject data that could be crucial later on. Think before using this method what the programmatic implications are.</code></pre>
+</div>
 </div>
 <div id="during-session-reflection" class="section level3">
 <h3>DURING-Session REFLECTION</h3>
