@@ -59,9 +59,13 @@ print(subset_df)
 ```
 
 ## Quick note: is.na()
+
 ##### a logical function that checks the given the data structure and returns TRUE if there are missing values
+
 ## Operators
+
 ##### operaqtors like '!' and '&' can be useful when used properly, like in conjuction with functions within a code chunk. While they don't necessarily do anything powerful, they are very useful when used !
+
 ```{r}
 # first, let's look at is.na(), '&', and '!' in action on the TEND example data
 Brain_Data <- read.csv("Brain_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
@@ -130,6 +134,7 @@ View(listwise_subs)
 ```
 
 #### grep! this function is from base R, and is used when pattern maqtching is needed, in this case, for a subset of prefixed rows.
+
 ```{r}
 # For our Kaggle data set, there appears to be two prefixes in the 'number' column. This chunk will show you how to subset the 'condition_' prefix group and the 'control_' group out of the data set. This might serve useful later on!**
 dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
@@ -147,7 +152,9 @@ str(control_df)
 ```
 
 ## Subsetting Alternatives
+
 ##### Below are some very useful examples that Johanna offered as alternatives to the more complex syntax or functions previously mentioned
+
 ```{r subset alt, include=TRUE, echo=TRUE}
 # This code chunk contains many different ways to extract rows and columns with more simple syntax.
 dep_scores[,] # all rows and all columns
@@ -188,10 +195,17 @@ str(dep_scores)
 dep_scores$number <- sub("^condition_|^control_", "", dep_scores$number)
 print(dep_scores)
 
-# I want to emphasize that we only practed that method for the sake of practice. It may be counterproductive to remove the prefixes because they offer info about the subject data that could be crucial later on. Think before using this method what the programmatic implications are.
+# I want to emphasize that we only practiced that method for the sake of practice. It may be counterproductive to remove the prefixes because they offer info about the subject data that could be crucial later on. Think before using this method what the programmatic implications are.
 ```
 
 ### DURING-Session REFLECTION
+
 ##### I want to thank Krupali, who helped me find my way when navigating this software. I was in need of some short-term goals, and she helped contextualize RStudio in a way that inspired me to get back to the computer and keep gouing! Thank you, Krupali!
+
+##### I need to look more into ifelse() statements and levelling
+
+##### I noticed myself deviating from Johanna's videos and using the internet for some troubleshooting which I think is totally fine, however it ended up costing me time and cognitive load, because had I finished watching the video from Week 2, I wouldv'e learned many functions or concepts that I had trouble understanding. Instead of following her videos or even the Rmd files, I was just asking the internet for answers to questions I didn't end up needing an answer to. While I don't think it isn wise to follow only one source of content, I must realize that these skills are only useful if they make sense in your specific environment, TEND lab. If I receive advice from the internet, they won't understand the full context of the probloems i am trying to solve. THAT, is why I believe following the recordings/markdown/schedule will allow me to set realistic, useful, and short-term goals for learning RStudio and how to be of use to my peers!
+
 ### POST-Session REFLECTION
+
 ##### TBD....
