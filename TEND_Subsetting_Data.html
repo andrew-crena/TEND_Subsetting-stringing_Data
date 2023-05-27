@@ -357,16 +357,13 @@ display: none;
 </div>
 
 
-<pre class="r"><code>knitr::opts_chunk$set(root.dir = &quot;C:C:\\Users\\adcre\\OneDrive\\Documents\\R_Programming\\TEND&quot;,
+<pre class="r"><code>knitr::opts_chunk$set(root.dir = &quot;C:\\Users\\adcre\\OneDrive\\
+                      Documents\\Desktop_RStudio&quot;,
                       echo = TRUE)
 getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/R_Programming/TEND&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/Desktop_RStudio&quot;</code></pre>
 <div id="adding-librariespackages" class="section level2">
 <h2>Adding libraries/packages</h2>
-<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.2.3</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.2     ✔ readr     2.1.4
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
@@ -376,24 +373,27 @@ getwd()</code></pre>
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre><code>## Warning: package &#39;psych&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## 
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+## 
 ## Attaching package: &#39;psych&#39;
+## 
 ## 
 ## The following objects are masked from &#39;package:ggplot2&#39;:
 ## 
 ##     %+%, alpha
 ## 
 ## 
+## 
 ## Please cite as: 
 ## 
+## 
 ##  Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+## 
 ##  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer</code></pre>
 </div>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
-<div id="this-markdown-will-serve-as-a-reference-sheet-for-different-subsetting-methods-packages-applications-and-more.-more-specifically-how-to-subset-data-casewise-listwise-by-id-or-by-variable.-having-a-large-and-complex-df-could-prevent-you-from-gaining-insight-about-specific-data.-having-the-ability-to-call-for-certain-id-numbers-or-variables-like-gender-or-age-allows-you-to-use-a-magnifying-glass-on-your-large-df.-i-also-plan-on-learning-and-practicing-substringing-values-and-being-able-to-remove-the-sub-from-sub-xxxx-in-the-subject-id-column.-the-key-differences-between-substringing-snd-subsetting-is-that-substringing-is-applied-to-character-strings-like-text-files-and-can-outout-specific-ranges-or-positions-in-a-long-character-string.-a-subset-is-more-widely-used-because-it-can-be-applied-to-data-frames-and-other-data-structures.-based-off-of-certain-arguments-or-criteria-a-subset-can-give-you-a-closer-look-on-specific-points-in-your-data-structure.-subsets-are-represented-by-brackets-and-more-of-the-syntax-will-be-learned-with-time-and-practice." class="section level5">
+<div id="this-markdown-will-serve-as-a-reference-sheet-for-different-subsetting-methods-packages-applications-and-more.-more-specifically-how-to-subset-data-casewise-listwise-by-id-or-by-variable.-having-a-large-and-complex-df-could-prevent-you-from-gaining-insight-about-specific-data.-having-the-ability-to-call-for-certain-id-numbers-or-variables-like-gender-or-age-allows-you-to-use-a-magnifying-glass-on-your-large-df.-i-also-plan-on-learning-and-practicing-substringing-values-and-being-able-to-remove-the-sub-from-sub-xxxx-in-the-subject-id-column.-the-key-differences-between-substringing-and-subsetting-is-that-substringing-is-applied-to-character-strings-like-text-files-and-can-output-specific-ranges-or-positions-in-a-long-character-string.-a-subset-is-more-widely-used-because-it-can-be-applied-to-data-frames-and-other-data-structures.-based-off-of-certain-arguments-or-criteria-a-subset-can-give-you-a-closer-look-on-specific-points-in-your-data-structure.-subsets-are-represented-by-brackets-and-more-of-the-syntax-will-be-learned-with-time-and-practice." class="section level5">
 <h5>This markdown will serve as a reference sheet for different
 subsetting methods, packages, applications, and more. More specifically,
 how to subset data casewise, listwise, by ID, or by variable. Having a
@@ -402,9 +402,9 @@ specific data. Having the ability to call for certain ID numbers or
 variables, like gender or age, allows you to use a magnifying glass on
 your large df. I also plan on learning and practicing substringing
 values, and being able to remove the “sub” from “sub-xxxx” in the
-subject ID column. The key differences between substringing snd
+subject ID column. The key differences between substringing and
 subsetting is that substringing is applied to character strings like
-text files, and can outout specific ranges or positions in a long
+text files, and can output specific ranges or positions in a long
 character string. A subset is more widely used because it can be applied
 to data frames and other data structures. Based off of certain arguments
 or criteria, a subset can give you a closer look on specific points in
@@ -435,7 +435,7 @@ print(df)</code></pre>
 ## 5 Michael  30   Sydney</code></pre>
 <pre class="r"><code># Notice the use of brackets[] and a dollar sign$ to indicate that you want to subset, and that you would like to subset a specific column, respectively. In this example, we also pass a condition that the Age must be greater than 30. In other words, I want to see the data for participants over 30 years old.
 
-# Subset the data frame by age
+# Subset the data frame by age, specifically ppl over the age of 30
 subset_df &lt;- df[df$Age &gt; 30, ]
 
 # Print the subsetted data frame
@@ -450,8 +450,8 @@ data set found on Kaggle. We will explore the same data set found in my
 “Importing_Data_Sets” repo, the Depression Dataset found at this link on
 Kaggle: <a href="https://www.kaggle.com/datasets/arashnic/the-depression-dataset" class="uri">https://www.kaggle.com/datasets/arashnic/the-depression-dataset</a></h5>
 </div>
-<div id="this-data-set-is-represented-as-unzipped_datain-my-files" class="section level5">
-<h5>This data set is represented as ’unzipped_data’in my Files</h5>
+<div id="this-data-set-is-represented-as-scores.csvin-my-files" class="section level5">
+<h5>This data set is represented as ’scores.csv’in my Files</h5>
 <pre class="r"><code># First, I will load in the scores from the selected dataset. It can be done many ways, and should be well understood at this point.
 dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
 str(dep_scores)</code></pre>
@@ -497,11 +497,73 @@ print(dep_subset)</code></pre>
 ## 5 control_16      13      2 40-44      NA      NA        NA &lt;NA&gt;        NA    NA
 ## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
 <pre class="r"><code># Notice that we used &#39;==&quot; instead of the logical condition &#39;&lt;&#39; or &#39;&gt;&#39;. So, rather than calling for subjects older than 30 years, we are calling for an age range 40-44 by calling for the specific character string &#39;40-44&#39;. 
-# What if I wanted to call for a specific ID? There is a &#39;number&#39; column, and each subject is either represented by &#39;conditon_X&#39; or &#39;control_X&#39;, for example. This will actually be done by the same syntax as the age range subset example above, because they are represented by character strings.
+# What if I wanted to call for a specific ID? There is a &#39;number&#39; column, and each subject is either represented by &#39;condition_X&#39; or &#39;control_X&#39;, for example. This will actually be done by the same syntax as the age range subset example above, because they are represented by character strings.
 test_subject1 &lt;- dep_scores[dep_scores$number == &quot;condition_1&quot;, ]
 control_subject1 &lt;- dep_scores[dep_scores$number == &quot;control_1&quot;, ]
+
 View(control_subject1)
-View(test_subject1)</code></pre>
+View(test_subject1)
+
+# After looking further into the data, I noticed that the &#39;gender&#39; column has 1&#39;s and 2&#39;s, 1 presumably representing male subjects. This allows us to create a new variable, &#39;male_subjects&#39; for example.
+male_subject_dep &lt;- dep_scores[dep_scores$gender == 1, ]
+
+# Let&#39;s go one step further and subset by age AND gender by using the &#39;&amp;&#39; operator in the brackets.Make sure to assign variables to your subsets, so that they can be referenced later in the code.
+new_subset &lt;- dep_scores[dep_scores$gender == 2 &amp;
+                            dep_scores$age == &quot;45-49&quot;, ]
+View(new_subset)</code></pre>
+</div>
+<div id="this-next-code-chunk-will-look-into-subsetting-list-wise-and-case-wise" class="section level5">
+<h5>This next code chunk will look into subsetting list-wise and
+case-wise!</h5>
+</div>
+<div id="what-are-the-key-differences-between-these-methods-of-subsetting-and-when-would-you-use-them" class="section level5">
+<h5>What are the key differences between these methods of subsetting,
+and when would you use them?</h5>
+<pre class="r"><code># Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You could set criteria for the rows you would like returned, or specify one case you are interested in
+# List-wise, on the other hand, is for when we would like to include all of the data from specific variables, or columns. Almost as if you chop down unwanted columns from the data frame to create a new, slimmer one. This is how you are using a magnifying glass with subsetting!
+
+# Let&#39;s use the Kaggle depression data set from the previous chunk to observe these subset methods.
+dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
+str(dep_scores)</code></pre>
+<pre><code>## spc_tbl_ [55 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ number   : chr [1:55] &quot;condition_1&quot; &quot;condition_2&quot; &quot;condition_3&quot; &quot;condition_4&quot; ...
+##  $ days     : num [1:55] 11 18 13 13 13 7 11 5 13 9 ...
+##  $ gender   : num [1:55] 2 2 1 2 2 1 1 2 2 2 ...
+##  $ age      : chr [1:55] &quot;35-39&quot; &quot;40-44&quot; &quot;45-49&quot; &quot;25-29&quot; ...
+##  $ afftype  : num [1:55] 2 1 2 2 2 2 1 2 1 2 ...
+##  $ melanch  : num [1:55] 2 2 2 2 2 2 NA NA NA 2 ...
+##  $ inpatient: num [1:55] 2 2 2 2 2 2 2 2 2 2 ...
+##  $ edu      : chr [1:55] &quot;6-10&quot; &quot;6-10&quot; &quot;6-10&quot; &quot;11-15&quot; ...
+##  $ marriage : num [1:55] 1 2 2 1 2 1 2 1 1 1 ...
+##  $ work     : num [1:55] 2 2 2 1 2 2 1 2 2 2 ...
+##  $ madrs1   : num [1:55] 19 24 24 20 26 18 24 20 26 28 ...
+##  $ madrs2   : num [1:55] 19 11 25 16 26 15 25 16 26 21 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   number = col_character(),
+##   ..   days = col_double(),
+##   ..   gender = col_double(),
+##   ..   age = col_character(),
+##   ..   afftype = col_double(),
+##   ..   melanch = col_double(),
+##   ..   inpatient = col_double(),
+##   ..   edu = col_character(),
+##   ..   marriage = col_double(),
+##   ..   work = col_double(),
+##   ..   madrs1 = col_double(),
+##   ..   madrs2 = col_double()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<pre class="r"><code># First, we will look at case-wise subsetting. There is a &#39;days&#39; column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
+subset_twowksubs &lt;- dep_scores[dep_scores$days &gt; 13, ]
+View(subset_twowksubs)
+# Now, it will return cases that are 2 weeks old or older! Thus, case-wise subsetting
+
+# It&#39;s time to look at list-wise subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for &#39;concatenate&#39;, or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
+
+# You will notice that we start the [] section of the following code with a &#39;,&#39;. This simply means that we will be including all of the rows in the data set. The same goes for the opposite regarding columns, as you may have seen earlier.
+listwise_subs &lt;- dep_scores[ , c(&quot;age&quot;, &quot;afftype&quot;, &quot;edu&quot;)]
+View(listwise_subs)</code></pre>
 </div>
 <div id="during-session-reflection" class="section level3">
 <h3>DURING-Session REFLECTION</h3>

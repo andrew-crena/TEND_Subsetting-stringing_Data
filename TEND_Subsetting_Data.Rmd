@@ -8,7 +8,8 @@ output:
 ---
 
 ```{r setup, include=TRUE, echo=TRUE}
-knitr::opts_chunk$set(root.dir = "C:C:\\Users\\adcre\\OneDrive\\Documents\\R_Programming\\TEND",
+knitr::opts_chunk$set(root.dir = "C:\\Users\\adcre\\OneDrive\\
+                      Documents\\Desktop_RStudio",
                       echo = TRUE)
 getwd()
 ```
@@ -28,11 +29,12 @@ library(readr)
 ```
 
 ## R Markdown
-##### This markdown will serve as a reference sheet for different subsetting methods, packages, applications, and more. More specifically, how to subset data casewise, listwise, by ID, or by variable. Having a large and complex df could prevent you from gaining insight about specific data. Having the ability to call for certain ID numbers or variables, like gender or age, allows you to use a magnifying glass on your large df. I also plan on learning and practicing substringing values, and being able to remove the "sub" from "sub-xxxx" in the subject ID column. The key differences between substringing snd subsetting is that substringing is applied to character strings like text files, and can outout specific ranges or positions in a long character string. A subset is more widely used because it can be applied to data frames and other data structures. Based off of certain arguments or criteria, a subset can give you a closer look on specific points in your data structure. Subsets are represented by brackets[], and more of the syntax will be learned with time and practice.
+
+##### This markdown will serve as a reference sheet for different subsetting methods, packages, applications, and more. More specifically, how to subset data casewise, listwise, by ID, or by variable. Having a large and complex df could prevent you from gaining insight about specific data. Having the ability to call for certain ID numbers or variables, like gender or age, allows you to use a magnifying glass on your large df. I also plan on learning and practicing substringing values, and being able to remove the "sub" from "sub-xxxx" in the subject ID column. The key differences between substringing and subsetting is that substringing is applied to character strings like text files, and can output specific ranges or positions in a long character string. A subset is more widely used because it can be applied to data frames and other data structures. Based off of certain arguments or criteria, a subset can give you a closer look on specific points in your data structure. Subsets are represented by brackets[], and more of the syntax will be learned with time and practice.
 
 ##### The first code chunk will be examples of subsetting on a simple data structure that is created within the chunk. In the interest of truly being able to apply these skills, I will use a df imported from Kaggle after this code chunk in order to test it in a real-life situation.
 
-```{r subset}
+```{r subset, include=TRUE, echo=TRUE}
 # We will first create a df that allows us to visualize subsetting, and learn the syntax used to call for certain variables like people aged over 30.
 
 # Create a data frame
@@ -47,15 +49,16 @@ print(df)
 
 # Notice the use of brackets[] and a dollar sign$ to indicate that you want to subset, and that you would like to subset a specific column, respectively. In this example, we also pass a condition that the Age must be greater than 30. In other words, I want to see the data for participants over 30 years old.
 
-# Subset the data frame by age
+# Subset the data frame by age, specifically ppl over the age of 30
 subset_df <- df[df$Age > 30, ]
 
 # Print the subsetted data frame
 print(subset_df)
 ```
 
-##### Let's try subsetting by variables and conditions on a more realistic data set found on Kaggle. We will explore the same data set found in my "Importing_Data_Sets" repo, the Depression Dataset found at this link on Kaggle: https://www.kaggle.com/datasets/arashnic/the-depression-dataset 
-##### This data set is represented as 'unzipped_data'in my Files
+##### Let's try subsetting by variables and conditions on a more realistic data set found on Kaggle. We will explore the same data set found in my "Importing_Data_Sets" repo, the Depression Dataset found at this link on Kaggle: <https://www.kaggle.com/datasets/arashnic/the-depression-dataset>
+
+##### This data set is represented as 'scores.csv'in my Files
 
 ```{r kaggle subset, include=TRUE, echo=TRUE}
 # First, I will load in the scores from the selected dataset. It can be done many ways, and should be well understood at this point.
@@ -67,14 +70,46 @@ dep_subset <- dep_scores[dep_scores$age == "40-44", ]
 print(dep_subset)
 
 # Notice that we used '==" instead of the logical condition '<' or '>'. So, rather than calling for subjects older than 30 years, we are calling for an age range 40-44 by calling for the specific character string '40-44'. 
-# What if I wanted to call for a specific ID? There is a 'number' column, and each subject is either represented by 'conditon_X' or 'control_X', for example. This will actually be done by the same syntax as the age range subset example above, because they are represented by character strings.
+# What if I wanted to call for a specific ID? There is a 'number' column, and each subject is either represented by 'condition_X' or 'control_X', for example. This will actually be done by the same syntax as the age range subset example above, because they are represented by character strings.
 test_subject1 <- dep_scores[dep_scores$number == "condition_1", ]
 control_subject1 <- dep_scores[dep_scores$number == "control_1", ]
+
 View(control_subject1)
 View(test_subject1)
 
+# After looking further into the data, I noticed that the 'gender' column has 1's and 2's, 1 presumably representing male subjects. This allows us to create a new variable, 'male_subjects' for example.
+male_subject_dep <- dep_scores[dep_scores$gender == 1, ]
+
+# Let's go one step further and subset by age AND gender by using the '&' operator in the brackets.Make sure to assign variables to your subsets, so that they can be referenced later in the code.
+new_subset <- dep_scores[dep_scores$gender == 2 &
+                            dep_scores$age == "45-49", ]
+View(new_subset)
+```
+
+##### This next code chunk will look into subsetting list-wise and case-wise!
+##### What are the key differences between these methods of subsetting, and when would you use them?
+
+```{r case-wise and list-wise, include=T, echo=T}
+# Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You could set criteria for the rows you would like returned, or specify one case you are interested in
+# List-wise, on the other hand, is for when we would like to include all of the data from specific variables, or columns. Almost as if you chop down unwanted columns from the data frame to create a new, slimmer one. This is how you are using a magnifying glass with subsetting!
+
+# Let's use the Kaggle depression data set from the previous chunk to observe these subset methods.
+dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+str(dep_scores)
+
+# First, we will look at case-wise subsetting. There is a 'days' column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
+subset_twowksubs <- dep_scores[dep_scores$days > 13, ]
+View(subset_twowksubs)
+# Now, it will return cases that are 2 weeks old or older! Thus, case-wise subsetting
+
+# It's time to look at list-wise subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for 'concatenate', or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
+
+# You will notice that we start the [] section of the following code with a ','. This simply means that we will be including all of the rows in the data set. The same goes for the opposite regarding columns, as you may have seen earlier.
+listwise_subs <- dep_scores[ , c("age", "afftype", "edu")]
+View(listwise_subs)
 
 ```
+
 
 ### DURING-Session REFLECTION
 
