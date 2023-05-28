@@ -6,7 +6,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-
+## R Markdown
 ```{r setup, include=TRUE, echo=TRUE}
 library(here)
 
@@ -22,7 +22,6 @@ getwd()
 ```
 
 ## Adding libraries/packages
-
 ```{r prep, include=T, echo=F}
 library(tidyverse) 
 # Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for 
@@ -40,13 +39,10 @@ library(readr)
 ```
 
 ## R Markdown
-
 ##### This markdown will serve as a reference sheet for different subsetting methods, packages, applications, and more. More specifically, how to subset data casewise, listwise, by ID, or by variable. Having a large and complex df could prevent you from gaining insight about specific data. Having the ability to call for certain ID numbers or variables, like gender or age, allows you to use a magnifying glass on your large df. I also plan on learning and practicing substringing values, and being able to remove the "sub" from "sub-xxxx" in the subject ID column. The key differences between substringing and subsetting is that substringing is applied to character strings like text files, and can output specific ranges or positions in a long character string. A subset is more widely used because it can be applied to data frames and other data structures. Based off of certain arguments or criteria, a subset can give you a closer look on specific points in your data structure. Subsets are represented by brackets[], and more of the syntax will be learned with time and practice.
 
 ### Subsetting
-
 ##### The first code chunk will be examples of subsetting on a simple data structure that is created within the chunk. In the interest of truly being able to apply these skills, I will use a df imported from Kaggle after this code chunk in order to test it in a real-life situation.
-
 ```{r subset, include=TRUE, echo=TRUE}
 # We will first create a df that allows us to visualize subsetting, and learn the 
 # syntax used to call for certain variables like people aged over 30.
@@ -74,11 +70,19 @@ print(subset_df)
 ```
 
 ## Quick note: is.na()
-
 ##### a logical function that checks the given the data structure and returns TRUE if there are missing values
 
-## Operators
+## na.rm()
+```{r remove NAs, include=TRUE, echo=TRUE}
+Brain_Data <- read.csv("Brain_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
+Behavioral_Data<-read.csv("Bx_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
+DATA <- merge(Brain_Data, Behavioral_Data, "ID", all=T)
 
+# Now, we will use na.rm(), which effectively
+DATA$RADS_average<- rowMeans(DATA[,c("RADS_DM",	"RADS_AN",	"RADS_NS",	"RADS_SC")], na.rm=TRUE) 
+```
+
+## Operators
 ##### operaqtors like '!' and '&' can be useful when used properly, like in conjuction with functions within a code chunk. While they don't necessarily do anything powerful, they are very useful when used !
 
 ```{r}
@@ -94,9 +98,7 @@ View(SUBdata)
 ```
 
 ##### Let's try subsetting by variables and conditions on a more realistic data set found on Kaggle. We will explore the same data set found in my "Importing_Data_Sets" repo, the Depression Dataset found at this link on Kaggle: <https://www.kaggle.com/datasets/arashnic/the-depression-dataset>
-
 ##### This data set is represented as 'scores.csv'in my Files
-
 ```{r kaggle subset, include=TRUE, echo=TRUE}
 # First, I will load in the scores from the selected dataset. It can be done many 
 # ways, and should be well understood at this point.
@@ -144,7 +146,6 @@ View(new_subset)
 ##### This next code chunk will look into subsetting list-wise and case-wise!
 ##### What are the key differences between these methods of subsetting, and when would you use them?
 ###### To quote GPT-4, "In summary, case-wise subsetting involves selecting specific rows based on conditions, while list-wise subsetting involves selecting specific columns."
-
 ```{r case-wise and list-wise, include=T, echo=T}
 # Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You 
 # could set criteria for the rows you would like returned, or specify one case you are 
@@ -180,7 +181,6 @@ View(listwise_subs)
 ```
 
 #### grep! this function is from base R, and is used when pattern maqtching is needed, in this case, for a subset of prefixed rows.
-
 ```{r}
 # For our Kaggle data set, there appears to be two prefixes in the 'number' column. 
 # This chunk will show you how to subset the 'condition_' prefix group and the 
@@ -199,20 +199,18 @@ str(condition_df)
 str(control_df)
 ```
 
-### ifelse()
+### ifelse() *********
 ```{r}
-#Here we are creating a new variable "Current_Med_String" to have strings of what was 
-#in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This 
-#is an if else statemnet, It will look at all rows checking if "current_med" is equal 
-#to ("==") 1. if that is TRUE, "Current_Med_String" for that row will not equal "Meds", 
-#if it is not true (FALSE), it will return its ELSE statement "noMeds".
+# Here we are creating a new variable "Current_Med_String" to have strings of what was 
+# in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This 
+# is an if else statemnet, It will look at all rows checking if "current_med" is equal 
+# to ("==") 1. if that is TRUE, "Current_Med_String" for that row will not equal "Meds", 
+# if it is not true (FALSE), it will return its ELSE statement "noMeds".
 DATA$Current_Med_String <- ifelse(DATA$Current_Med == 1, "Meds", "noMeds")
 ```
 
 ## Subsetting Alternatives
-
 ##### Below are some very useful examples that Johanna offered as alternatives to the more complex syntax or functions previously mentioned
-
 ```{r subset alt, include=TRUE, echo=TRUE}
 # This code chunk contains many different ways to extract rows and columns with more 
 # simple syntax.
@@ -223,9 +221,7 @@ dep_scores[c(1,3),1:10] #first and third row and the first 10 columns
 ```
 
 ### Substringing
-
 ##### Let's say we had a data frame, but in our subject's row3, there is a prefix called "sub\_". This means that each case is represented as 'sub_XXXX'. If I wanted to remove that prefixd, or any prefixes for that matter, I would use substringing! Substringing is useful when you know the specific ranges or positions that you want to call for. In this case, we know that the last 4 characters are the ID, and we don't need the prefix. This code will show you how to solve this problem, so that subjects are only represented by integers, not a prefix as well.
-
 ```{r substringing, include=T, echo=T}
 # To stay consistent, we will first create a simple data set wi9thin our code to visualize 
 # and practice substringing. After that, we will explore the Kaggle depression data set.
@@ -247,7 +243,6 @@ print(substr_df)
 ```
 
 ##### Now that we have looked at a basic example of substringing to remove unwanted prefixes, let's try it on our Kaggle depression data set
-
 ```{r substringing Kaggle}
 dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
 str(dep_scores)
@@ -268,15 +263,9 @@ print(dep_scores)
 ```
 
 ### DURING-Session REFLECTION
-
 ##### I want to thank Krupali, who helped me find my way when navigating this software. I was in need of some short-term goals, and she helped contextualize RStudio in a way that inspired me to get back to the computer and keep going! Thank you, Krupali!
-
 ##### I need to look more into ifelse() statements and levelling
-
 ##### I noticed myself deviating from Johanna's videos and using the internet for some troubleshooting which I think is totally fine, however it ended up costing me time and cognitive load, because had I finished watching the video from Week 2, I wouldv'e learned many functions or concepts that I had trouble understanding. Instead of following her videos or even the Rmd files, I was just asking the internet for answers to questions I didn't end up needing an answer to. While I don't think it isn wise to follow only one source of content, I must realize that these skills are only useful if they make sense in your specific environment, TEND lab. If I receive advice from the internet, they won't understand the full context of the probloems i am trying to solve. THAT, is why I believe following the recordings/markdown/schedule will allow me to set realistic, useful, and short-term goals for learning RStudio and how to be of use to my peers!
-
 #### My within-codechunk comments are becoming very long, and I ran into a problem when knitting that made the comments continue running off the page. While this wasn't a problem, it made me think about my comments in general and i think they are running long. Don't add words just to add words. the more effective you are with your words, the more emphasis you can put on certain ideas.
-
 ### POST-Session REFLECTION
-
 ##### TBD....
