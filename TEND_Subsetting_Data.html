@@ -369,7 +369,6 @@ here()</code></pre>
 <pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/Desktop_RStudio&quot;</code></pre>
 <pre class="r"><code>#sets the working directory to be wherever your source file or Rmd is
 setwd(here())
-
 getwd()</code></pre>
 <pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/Desktop_RStudio&quot;</code></pre>
 </div>
@@ -422,16 +421,15 @@ or criteria, a subset can give you a closer look on specific points in
 your data structure. Subsets are represented by brackets[], and more of
 the syntax will be learned with time and practice.</h5>
 </div>
-<div id="subsetting" class="section level3">
-<h3>Subsetting</h3>
+</div>
+<div id="subsetting" class="section level2">
+<h2>Subsetting</h2>
 <div id="the-first-code-chunk-will-be-examples-of-subsetting-on-a-simple-data-structure-that-is-created-within-the-chunk.-in-the-interest-of-truly-being-able-to-apply-these-skills-i-will-use-a-df-imported-from-kaggle-after-this-code-chunk-in-order-to-test-it-in-a-real-life-situation." class="section level5">
 <h5>The first code chunk will be examples of subsetting on a simple data
 structure that is created within the chunk. In the interest of truly
 being able to apply these skills, I will use a df imported from Kaggle
 after this code chunk in order to test it in a real-life situation.</h5>
-<pre class="r"><code># We will first create a df that allows us to visualize subsetting, and learn the 
-# syntax used to call for certain variables like people aged over 30.
-
+<pre class="r"><code># We will first create a df that allows us to visualize subsets.
 # Create a data frame
 df &lt;- data.frame(
   Name = c(&quot;John&quot;, &quot;Emily&quot;, &quot;David&quot;, &quot;Sarah&quot;, &quot;Michael&quot;),
@@ -461,28 +459,36 @@ print(subset_df)</code></pre>
 ## 2 Emily  32 London
 ## 4 Sarah  35  Tokyo</code></pre>
 </div>
-</div>
-</div>
-<div id="quick-note-is.na" class="section level2">
-<h2>Quick note: is.na()</h2>
+<div id="quick-note-is.na" class="section level3">
+<h3>Quick note: is.na()</h3>
 <div id="a-logical-function-that-checks-the-given-the-data-structure-and-returns-true-if-there-are-missing-values" class="section level5">
 <h5>a logical function that checks the given the data structure and
 returns TRUE if there are missing values</h5>
 </div>
 </div>
-<div id="na.rm" class="section level2">
-<h2>na.rm()</h2>
+<div id="na.rm" class="section level3">
+<h3>na.rm()</h3>
 <pre class="r"><code>Brain_Data &lt;- read.csv(&quot;Brain_Data.csv&quot;, header=T, sep=&quot;,&quot;, na.strings=c(&quot;NA&quot;, &quot;888&quot;, &quot;999&quot;))
 Behavioral_Data&lt;-read.csv(&quot;Bx_Data.csv&quot;, header=T, sep=&quot;,&quot;, na.strings=c(&quot;NA&quot;, &quot;888&quot;, &quot;999&quot;))
 DATA &lt;- merge(Brain_Data, Behavioral_Data, &quot;ID&quot;, all=T)
 
-# Now, we will use na.rm(), which effectively
+# Now, we will use na.rm(), which effectively reads over the data and still averages the variables that are there by requiring that it only averages values that are &quot;numeric&quot;. We use c() within our subset to average across multiple columns
 DATA$RADS_average&lt;- rowMeans(DATA[,c(&quot;RADS_DM&quot;, &quot;RADS_AN&quot;,  &quot;RADS_NS&quot;,  &quot;RADS_SC&quot;)], na.rm=TRUE) </code></pre>
 </div>
-<div id="operators" class="section level2">
-<h2>Operators</h2>
-<div id="operaqtors-like-and-can-be-useful-when-used-properly-like-in-conjuction-with-functions-within-a-code-chunk.-while-they-dont-necessarily-do-anything-powerful-they-are-very-useful-when-used" class="section level5">
-<h5>operaqtors like ‘!’ and ‘&amp;’ can be useful when used properly,
+<div id="creating-nas" class="section level3">
+<h3>creating NAs</h3>
+<pre class="r"><code>#This is one way to specifically change certain data into NA. More specifically, I want to remove any values that are greater than 21. Other conditions can be made, of course.
+DATA$Bx_to_Scan_Days[DATA$Bx_to_Scan_Days &gt; 21] &lt;- NA
+
+##If you want to take out a specific variable (like an outlier). You can use &quot;which&quot; or &quot;grep&quot; (grep additionally allows for partial variable matches). grep() was used because it will catch patterns, this one being &#39;107&#39;, the subID we are interested in removing. This is one of many ways to solve the same problem
+badid &lt;- grep(&#39;107&#39;, DATA$ID)
+# assign a variable to the subsetted DATA, which is essentially your data without the outlier that was specified in the former line.
+DATAsub &lt;- DATA[-badid,]</code></pre>
+</div>
+<div id="operators" class="section level3">
+<h3>Operators</h3>
+<div id="operators-like-and-can-be-useful-when-used-properly-like-in-conjuction-with-functions-within-a-code-chunk.-while-they-dont-necessarily-do-anything-powerful-they-are-very-useful-when-used" class="section level5">
+<h5>operators like ‘!’ and ‘&amp;’ can be useful when used properly,
 like in conjuction with functions within a code chunk. While they don’t
 necessarily do anything powerful, they are very useful when used !</h5>
 <pre class="r"><code># first, let&#39;s look at is.na(), &#39;&amp;&#39;, and &#39;!&#39; in action on the TEND example data
@@ -720,6 +726,7 @@ str(condition_df)</code></pre>
 ##  $ madrs1   : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
 ##  $ madrs2   : num [1:32] NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 </div>
+</div>
 <div id="ifelse" class="section level3">
 <h3>ifelse() *********</h3>
 <pre class="r"><code># Here we are creating a new variable &quot;Current_Med_String&quot; to have strings of what was 
@@ -819,8 +826,16 @@ print(substr_df)</code></pre>
 <div id="now-that-we-have-looked-at-a-basic-example-of-substringing-to-remove-unwanted-prefixes-lets-try-it-on-our-kaggle-depression-data-set" class="section level5">
 <h5>Now that we have looked at a basic example of substringing to remove
 unwanted prefixes, let’s try it on our Kaggle depression data set</h5>
-<pre class="r"><code>dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
-str(dep_scores)</code></pre>
+<pre class="r"><code>dep_scores &lt;- read_csv(&quot;scores.csv&quot;)</code></pre>
+<pre><code>## Rows: 55 Columns: 12
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): number, age, edu
+## dbl (9): days, gender, afftype, melanch, inpatient, marriage, work, madrs1, ...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>str(dep_scores)</code></pre>
 <pre><code>## spc_tbl_ [55 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ number   : chr [1:55] &quot;condition_1&quot; &quot;condition_2&quot; &quot;condition_3&quot; &quot;condition_4&quot; ...
 ##  $ days     : num [1:55] 11 18 13 13 13 7 11 5 13 9 ...
@@ -887,8 +902,9 @@ this software. I was in need of some short-term goals, and she helped
 contextualize RStudio in a way that inspired me to get back to the
 computer and keep going! Thank you, Krupali!</h5>
 </div>
-<div id="i-need-to-look-more-into-ifelse-statements-and-levelling" class="section level5">
-<h5>I need to look more into ifelse() statements and levelling</h5>
+<div id="i-need-to-look-more-into-ifelse-statements-and-orderinglevelling" class="section level5">
+<h5>I need to look more into ifelse() statements and
+ordering/levelling</h5>
 </div>
 <div id="i-noticed-myself-deviating-from-johannas-videos-and-using-the-internet-for-some-troubleshooting-which-i-think-is-totally-fine-however-it-ended-up-costing-me-time-and-cognitive-load-because-had-i-finished-watching-the-video-from-week-2-i-wouldve-learned-many-functions-or-concepts-that-i-had-trouble-understanding.-instead-of-following-her-videos-or-even-the-rmd-files-i-was-just-asking-the-internet-for-answers-to-questions-i-didnt-end-up-needing-an-answer-to.-while-i-dont-think-it-isn-wise-to-follow-only-one-source-of-content-i-must-realize-that-these-skills-are-only-useful-if-they-make-sense-in-your-specific-environment-tend-lab.-if-i-receive-advice-from-the-internet-they-wont-understand-the-full-context-of-the-probloems-i-am-trying-to-solve.-that-is-why-i-believe-following-the-recordingsmarkdownschedule-will-allow-me-to-set-realistic-useful-and-short-term-goals-for-learning-rstudio-and-how-to-be-of-use-to-my-peers" class="section level5">
 <h5>I noticed myself deviating from Johanna’s videos and using the

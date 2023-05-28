@@ -16,18 +16,15 @@ here::i_am("TEND_Subsetting_Data.Rmd")
 here()
 #sets the working directory to be wherever your source file or Rmd is
 setwd(here())
-
 getwd()
-
 ```
 
 ## Adding libraries/packages
 ```{r prep, include=T, echo=F}
 library(tidyverse) 
-# Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for 
-# data tidying, 'readr' for data import, 'purrr' for functional programming, 'tibble' 
-# for (tibbles) a modern re-imagining of data frames, 'stringr' for strings, and 
-# 'forcats' for factors
+# Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for data tidying, 
+#'readr' for data import, 'purrr' for functional programming, 'tibble' for (tibbles) a modern 
+#'re-imagining of data frames, 'stringr' for strings, and'forcats' for factors
 library(foreign) 
 # Read data stored by SPSS and Stata
 library(psych) 
@@ -41,12 +38,11 @@ library(readr)
 ## R Markdown
 ##### This markdown will serve as a reference sheet for different subsetting methods, packages, applications, and more. More specifically, how to subset data casewise, listwise, by ID, or by variable. Having a large and complex df could prevent you from gaining insight about specific data. Having the ability to call for certain ID numbers or variables, like gender or age, allows you to use a magnifying glass on your large df. I also plan on learning and practicing substringing values, and being able to remove the "sub" from "sub-xxxx" in the subject ID column. The key differences between substringing and subsetting is that substringing is applied to character strings like text files, and can output specific ranges or positions in a long character string. A subset is more widely used because it can be applied to data frames and other data structures. Based off of certain arguments or criteria, a subset can give you a closer look on specific points in your data structure. Subsets are represented by brackets[], and more of the syntax will be learned with time and practice.
 
-### Subsetting
+## Subsetting
+
 ##### The first code chunk will be examples of subsetting on a simple data structure that is created within the chunk. In the interest of truly being able to apply these skills, I will use a df imported from Kaggle after this code chunk in order to test it in a real-life situation.
 ```{r subset, include=TRUE, echo=TRUE}
-# We will first create a df that allows us to visualize subsetting, and learn the 
-# syntax used to call for certain variables like people aged over 30.
-
+# We will first create a df that allows us to visualize subsets.
 # Create a data frame
 df <- data.frame(
   Name = c("John", "Emily", "David", "Sarah", "Michael"),
@@ -69,23 +65,33 @@ subset_df <- df[df$Age > 30, ]
 print(subset_df)
 ```
 
-## Quick note: is.na()
+### Quick note: is.na()
 ##### a logical function that checks the given the data structure and returns TRUE if there are missing values
 
-## na.rm()
+### na.rm()
 ```{r remove NAs, include=TRUE, echo=TRUE}
 Brain_Data <- read.csv("Brain_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
 Behavioral_Data<-read.csv("Bx_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
 DATA <- merge(Brain_Data, Behavioral_Data, "ID", all=T)
 
-# Now, we will use na.rm(), which effectively
+# Now, we will use na.rm(), which effectively reads over the data and still averages the variables that are there by requiring that it only averages values that are "numeric". We use c() within our subset to average across multiple columns
 DATA$RADS_average<- rowMeans(DATA[,c("RADS_DM",	"RADS_AN",	"RADS_NS",	"RADS_SC")], na.rm=TRUE) 
 ```
 
-## Operators
-##### operaqtors like '!' and '&' can be useful when used properly, like in conjuction with functions within a code chunk. While they don't necessarily do anything powerful, they are very useful when used !
+### creating NAs
+```{r more NA, include=TRUE, echo=TRUE}
+#This is one way to specifically change certain data into NA. More specifically, I want to remove any values that are greater than 21. Other conditions can be made, of course.
+DATA$Bx_to_Scan_Days[DATA$Bx_to_Scan_Days > 21] <- NA
 
-```{r}
+##If you want to take out a specific variable (like an outlier). You can use "which" or "grep" (grep additionally allows for partial variable matches). grep() was used because it will catch patterns, this one being '107', the subID we are interested in removing. This is one of many ways to solve the same problem
+badid <- grep('107', DATA$ID)
+# assign a variable to the subsetted DATA, which is essentially your data without the outlier that was specified in the former line.
+DATAsub <- DATA[-badid,]
+```
+
+### Operators
+##### operators like '!' and '&' can be useful when used properly, like in conjuction with functions within a code chunk. While they don't necessarily do anything powerful, they are very useful when used !
+```{r is NA, include=TRUE, echo=TRUE}
 # first, let's look at is.na(), '&', and '!' in action on the TEND example data
 Brain_Data <- read.csv("Brain_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
 Behavioral_Data<-read.csv("Bx_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
@@ -181,7 +187,7 @@ View(listwise_subs)
 ```
 
 #### grep! this function is from base R, and is used when pattern maqtching is needed, in this case, for a subset of prefixed rows.
-```{r}
+```{r grep, include=T, echo=T}
 # For our Kaggle data set, there appears to be two prefixes in the 'number' column. 
 # This chunk will show you how to subset the 'condition_' prefix group and the 
 #'control_' group out of the data set. This might serve useful later on!**
@@ -200,7 +206,7 @@ str(control_df)
 ```
 
 ### ifelse() *********
-```{r}
+```{r ifelse, include=T, echo=T}
 # Here we are creating a new variable "Current_Med_String" to have strings of what was 
 # in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This 
 # is an if else statemnet, It will look at all rows checking if "current_med" is equal 
@@ -243,8 +249,8 @@ print(substr_df)
 ```
 
 ##### Now that we have looked at a basic example of substringing to remove unwanted prefixes, let's try it on our Kaggle depression data set
-```{r substringing Kaggle}
-dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+```{r more substringing Kaggle}
+dep_scores <- read_csv("scores.csv")
 str(dep_scores)
 
 # Using str() allows me to peek at the names of the rows that pertain to certain subjects. 
@@ -264,7 +270,7 @@ print(dep_scores)
 
 ### DURING-Session REFLECTION
 ##### I want to thank Krupali, who helped me find my way when navigating this software. I was in need of some short-term goals, and she helped contextualize RStudio in a way that inspired me to get back to the computer and keep going! Thank you, Krupali!
-##### I need to look more into ifelse() statements and levelling
+##### I need to look more into ifelse() statements and ordering/levelling
 ##### I noticed myself deviating from Johanna's videos and using the internet for some troubleshooting which I think is totally fine, however it ended up costing me time and cognitive load, because had I finished watching the video from Week 2, I wouldv'e learned many functions or concepts that I had trouble understanding. Instead of following her videos or even the Rmd files, I was just asking the internet for answers to questions I didn't end up needing an answer to. While I don't think it isn wise to follow only one source of content, I must realize that these skills are only useful if they make sense in your specific environment, TEND lab. If I receive advice from the internet, they won't understand the full context of the probloems i am trying to solve. THAT, is why I believe following the recordings/markdown/schedule will allow me to set realistic, useful, and short-term goals for learning RStudio and how to be of use to my peers!
 #### My within-codechunk comments are becoming very long, and I ran into a problem when knitting that made the comments continue running off the page. While this wasn't a problem, it made me think about my comments in general and i think they are running long. Don't add words just to add words. the more effective you are with your words, the more emphasis you can put on certain ideas.
 ### POST-Session REFLECTION
