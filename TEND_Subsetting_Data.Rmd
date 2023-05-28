@@ -89,6 +89,15 @@ badid <- grep('107', DATA$ID)
 DATAsub <- DATA[-badid,]
 ```
 
+### Removing outliers
+```{r outliers}
+# grep() is being used here to remove an outlier, assuming we know the characters/numbers etc of the data 
+badid <- grep('107', DATA$ID)
+DATAsub <- DATA[-badid,]
+
+```
+
+
 ### Operators
 ##### operators like '!' and '&' can be useful when used properly, like in conjuction with functions within a code chunk. While they don't necessarily do anything powerful, they are very useful when used !
 ```{r is NA, include=TRUE, echo=TRUE}
@@ -161,7 +170,7 @@ View(new_subset)
 # the data frame to create a new, slimmer one.
 
 # Let's use the Kaggle depression data set
-dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+dep_scores <- read_csv("scores.csv")
 str(dep_scores)
 
 # First, we will look at CASE-WISE subsetting. There is a 'days' column, which we will 
@@ -187,11 +196,11 @@ View(listwise_subs)
 ```
 
 #### grep! this function is from base R, and is used when pattern maqtching is needed, in this case, for a subset of prefixed rows.
-```{r grep, include=T, echo=T}
+```{r grep, include=T, echo=T, message=FALSE}
 # For our Kaggle data set, there appears to be two prefixes in the 'number' column. 
 # This chunk will show you how to subset the 'condition_' prefix group and the 
 #'control_' group out of the data set. This might serve useful later on!**
-dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+dep_scores <- read_csv("scores.csv")
 print(dep_scores)
 
 # Subset only the "condition" rows
@@ -209,7 +218,7 @@ str(control_df)
 ```{r ifelse, include=T, echo=T}
 # Here we are creating a new variable "Current_Med_String" to have strings of what was 
 # in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This 
-# is an if else statemnet, It will look at all rows checking if "current_med" is equal 
+# is an if else statement, It will look at all rows checking if "current_med" is equal 
 # to ("==") 1. if that is TRUE, "Current_Med_String" for that row will not equal "Meds", 
 # if it is not true (FALSE), it will return its ELSE statement "noMeds".
 DATA$Current_Med_String <- ifelse(DATA$Current_Med == 1, "Meds", "noMeds")
