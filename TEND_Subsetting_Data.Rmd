@@ -83,7 +83,7 @@ View(SUBdata)
 
 ```{r kaggle subset, include=TRUE, echo=TRUE}
 # First, I will load in the scores from the selected dataset. It can be done many ways, and should be well understood at this point.
-dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
+dep_scores <- read_csv("scores.csv")
 str(dep_scores)
 
 # By using str(), I can view the different columns by name. This is essentially a list of the variables that you can subset by, and we will try our best to navigate through this data via subsetting and adding conditions. Off the bat, we notice that there is indeed an age column. HOWEVER, it is actually in character form, not numeric!! This is because the creator of this data set has made columns that represent age ranges rather than putting the age as a column for any number. This slightly changes the code we will use to subset certain ages, but we will be doing effectively the same job.
@@ -108,9 +108,7 @@ View(new_subset)
 ```
 
 ##### This next code chunk will look into subsetting list-wise and case-wise!
-
 ##### What are the key differences between these methods of subsetting, and when would you use them?
-
 ###### To quote GPT-4, "In summary, case-wise subsetting involves selecting specific rows based on conditions, while list-wise subsetting involves selecting specific columns."
 
 ```{r case-wise and list-wise, include=T, echo=T}
@@ -149,6 +147,12 @@ control_df <- dep_scores[grep("^control_", dep_scores$number), ]
 # Check the subsetted data frames
 str(condition_df)
 str(control_df)
+```
+
+### ifelse()
+```{r}
+#Here we are creating a new variable "Current_Med_String" to have strings of what was in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This is an if else statemnet, It will look at all rows checking if "current_med" is equal to ("==") 1. if that is TRUE, "Current_Med_String" for that row will not equal "Meds", if it is not true (FALSE), it will return its ELSE statement "noMeds".
+DATA$Current_Med_String <- ifelse(DATA$Current_Med == 1, "Meds", "noMeds")
 ```
 
 ## Subsetting Alternatives

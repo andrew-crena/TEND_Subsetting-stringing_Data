@@ -361,9 +361,13 @@ display: none;
                       Documents\\Desktop_RStudio&quot;,
                       echo = TRUE)
 getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Desktop/Desktop_RStudio&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/R_Programming/TEND&quot;</code></pre>
 <div id="adding-librariespackages" class="section level2">
 <h2>Adding libraries/packages</h2>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.2.3</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.2     ✔ readr     2.1.4
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
@@ -373,22 +377,19 @@ getwd()</code></pre>
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-## 
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre><code>## Warning: package &#39;psych&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## 
 ## Attaching package: &#39;psych&#39;
-## 
 ## 
 ## The following objects are masked from &#39;package:ggplot2&#39;:
 ## 
 ##     %+%, alpha
 ## 
 ## 
-## 
 ## Please cite as: 
 ## 
-## 
 ##  Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
-## 
 ##  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer</code></pre>
 </div>
 <div id="r-markdown" class="section level2">
@@ -479,8 +480,16 @@ Kaggle: <a href="https://www.kaggle.com/datasets/arashnic/the-depression-dataset
 <div id="this-data-set-is-represented-as-scores.csvin-my-files" class="section level5">
 <h5>This data set is represented as ’scores.csv’in my Files</h5>
 <pre class="r"><code># First, I will load in the scores from the selected dataset. It can be done many ways, and should be well understood at this point.
-dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
-str(dep_scores)</code></pre>
+dep_scores &lt;- read_csv(&quot;scores.csv&quot;)</code></pre>
+<pre><code>## Rows: 55 Columns: 12
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): number, age, edu
+## dbl (9): days, gender, afftype, melanch, inpatient, marriage, work, madrs1, ...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>str(dep_scores)</code></pre>
 <pre><code>## spc_tbl_ [55 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ number   : chr [1:55] &quot;condition_1&quot; &quot;condition_2&quot; &quot;condition_3&quot; &quot;condition_4&quot; ...
 ##  $ days     : num [1:55] 11 18 13 13 13 7 11 5 13 9 ...
@@ -652,6 +661,11 @@ str(condition_df)</code></pre>
 ##  $ work     : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
 ##  $ madrs1   : num [1:32] NA NA NA NA NA NA NA NA NA NA ...
 ##  $ madrs2   : num [1:32] NA NA NA NA NA NA NA NA NA NA ...</code></pre>
+</div>
+<div id="ifelse" class="section level3">
+<h3>ifelse()</h3>
+<pre class="r"><code>#Here we are creating a new variable &quot;Current_Med_String&quot; to have strings of what was in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This is an if else statemnet, It will look at all rows checking if &quot;current_med&quot; is equal to (&quot;==&quot;) 1. if that is TRUE, &quot;Current_Med_String&quot; for that row will not equal &quot;Meds&quot;, if it is not true (FALSE), it will return its ELSE statement &quot;noMeds&quot;.
+DATA$Current_Med_String &lt;- ifelse(DATA$Current_Med == 1, &quot;Meds&quot;, &quot;noMeds&quot;)</code></pre>
 </div>
 </div>
 <div id="subsetting-alternatives" class="section level2">
