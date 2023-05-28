@@ -8,21 +8,32 @@ output:
 ---
 
 ```{r setup, include=TRUE, echo=TRUE}
-knitr::opts_chunk$set(root.dir = "C:\\Users\\adcre\\OneDrive\\
-                      Documents\\Desktop_RStudio",
-                      echo = TRUE)
+library(here)
+
+#tells you full file path of script in it current location
+here::i_am("TEND_Subsetting_Data.Rmd")
+#returns file path of where the script is current saved
+here()
+#sets the working directory to be wherever your source file or Rmd is
+setwd(here())
+
 getwd()
+
 ```
 
 ## Adding libraries/packages
 
 ```{r prep, include=T, echo=F}
 library(tidyverse) 
-# Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for data tidying, 'readr' for data import, 'purrr' for functional programming, 'tibble' for (tibbles) a modern re-imagining of data frames, 'stringr' for strings,and 'forcats' for factors
+# Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for 
+# data tidying, 'readr' for data import, 'purrr' for functional programming, 'tibble' 
+# for (tibbles) a modern re-imagining of data frames, 'stringr' for strings, and 
+# 'forcats' for factors
 library(foreign) 
 # Read data stored by SPSS and Stata
 library(psych) 
-# For personality, psychometric, and psychological research, includes describe function and error bars
+# For personality, psychometric, and psychological research, includes describe function 
+# and error bars
 library(stargazer) 
 # Handy regression tables
 library(readr)
@@ -37,7 +48,8 @@ library(readr)
 ##### The first code chunk will be examples of subsetting on a simple data structure that is created within the chunk. In the interest of truly being able to apply these skills, I will use a df imported from Kaggle after this code chunk in order to test it in a real-life situation.
 
 ```{r subset, include=TRUE, echo=TRUE}
-# We will first create a df that allows us to visualize subsetting, and learn the syntax used to call for certain variables like people aged over 30.
+# We will first create a df that allows us to visualize subsetting, and learn the 
+# syntax used to call for certain variables like people aged over 30.
 
 # Create a data frame
 df <- data.frame(
@@ -49,7 +61,10 @@ df <- data.frame(
 # Print the data frame
 print(df)
 
-# Notice the use of brackets[] and a dollar sign$ to indicate that you want to subset, and that you would like to subset a specific column, respectively. In this example, we also pass a condition that the Age must be greater than 30. In other words, I want to see the data for participants over 30 years old.
+# Notice the use of brackets[] and a dollar sign$ to indicate that you want to 
+# subset, and that you would like to subset a specific column, respectively. In 
+# this example, we also pass a condition that the Age must be greater than 30. 
+# In other words, I want to see the data for participants over 30 years old.
 
 # Subset the data frame by age, specifically ppl over the age of 30
 subset_df <- df[df$Age > 30, ]
@@ -72,7 +87,8 @@ Brain_Data <- read.csv("Brain_Data.csv", header=T, sep=",", na.strings=c("NA", "
 Behavioral_Data<-read.csv("Bx_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
 DATA <- merge(Brain_Data, Behavioral_Data, "ID", all=T)
 
-# With this line of code, we are extracting all of the cases that did not have missing values in the specified column. 
+# With this line of code, we are extracting all of the cases that did not have missing 
+# values in the specified column. 
 SUBdata<- subset(DATA, !is.na(DATA$CDRSR_total) & !is.na(DATA$RSFC1))
 View(SUBdata)
 ```
@@ -82,26 +98,44 @@ View(SUBdata)
 ##### This data set is represented as 'scores.csv'in my Files
 
 ```{r kaggle subset, include=TRUE, echo=TRUE}
-# First, I will load in the scores from the selected dataset. It can be done many ways, and should be well understood at this point.
+# First, I will load in the scores from the selected dataset. It can be done many 
+# ways, and should be well understood at this point.
 dep_scores <- read_csv("scores.csv")
 str(dep_scores)
 
-# By using str(), I can view the different columns by name. This is essentially a list of the variables that you can subset by, and we will try our best to navigate through this data via subsetting and adding conditions. Off the bat, we notice that there is indeed an age column. HOWEVER, it is actually in character form, not numeric!! This is because the creator of this data set has made columns that represent age ranges rather than putting the age as a column for any number. This slightly changes the code we will use to subset certain ages, but we will be doing effectively the same job.
+# By using str(), I can view the different columns by name. This is essentially a 
+# list of the variables that you can subset by, and we will try our best to 
+# navigate through this data via subsetting and adding conditions. Off the bat, 
+# we notice that there is indeed an age column. HOWEVER, it is actually in 
+# character form, not numeric!! This is because the creator of this data set has 
+# made columns that represent age ranges rather than putting the age as a column 
+# for any number. This slightly changes the code we will use to subset certain 
+# ages, but we will be doing effectively the same job.
 dep_subset <- dep_scores[dep_scores$age == "40-44", ]
 print(dep_subset)
 
-# Notice that we used '==" instead of the logical condition '<' or '>'. So, rather than calling for subjects older than 30 years, we are calling for an age range 40-44 by calling for the specific character string '40-44'. 
-# What if I wanted to call for a specific ID? There is a 'number' column, and each subject is either represented by 'condition_X' or 'control_X', for example. This will actually be done by the same syntax as the age range subset example above, because they are represented by character strings.
+# Notice that we used '==" instead of the logical condition '<' or '>'. Rather than 
+# calling for subjects older than 30 years, we are calling for an age range 40-44 by 
+# calling for the specific character string '40-44'. 
+# 
+# What if I wanted to call for a specific ID? There is a 'number' column, and each 
+# subject is either represented by 'condition_X' or 'control_X', for example. This 
+# will actually be done by the same syntax as the age range subset example above, 
+# because they are represented by character strings.
 test_subject1 <- dep_scores[dep_scores$number == "condition_1", ]
 control_subject1 <- dep_scores[dep_scores$number == "control_1", ]
 
 View(control_subject1)
 View(test_subject1)
 
-# After looking further into the data, I noticed that the 'gender' column has 1's and 2's, 1 presumably representing male subjects. This allows us to create a new variable, 'male_subjects' for example.
+# After looking further into the data, I noticed that the 'gender' column has 1's 
+# and 2's, 1 presumably representing male subjects. This allows us to create a new 
+# variable, 'male_subjects' for example.
 male_subject_dep <- dep_scores[dep_scores$gender == 1, ]
 
-# Let's go one step further and subset by age AND gender by using the '&' operator in the brackets.Make sure to assign variables to your subsets, so that they can be referenced later in the code.
+# Let's go one step further and subset by age AND gender by using the '&' operator 
+# in the brackets.Make sure to assign variables to your subsets, so that they can be 
+# referenced later in the code.
 new_subset <- dep_scores[dep_scores$gender == 2 &
                             dep_scores$age == "45-49", ]
 View(new_subset)
@@ -112,21 +146,35 @@ View(new_subset)
 ###### To quote GPT-4, "In summary, case-wise subsetting involves selecting specific rows based on conditions, while list-wise subsetting involves selecting specific columns."
 
 ```{r case-wise and list-wise, include=T, echo=T}
-# Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You could set criteria for the rows you would like returned, or specify one case you are interested in
-# List-wise, on the other hand, is for when we would like to include all of the data from specific variables, or columns. Almost as if you chop down unwanted columns from the data frame to create a new, slimmer one. This is how you are using a magnifying glass with subsetting!
+# Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You 
+# could set criteria for the rows you would like returned, or specify one case you are 
+# interested in
+# List-wise, on the other hand, is for when we would like to include all of the data 
+# from specific variables, or columns. Almost as if you chop down unwanted columns from 
+# the data frame to create a new, slimmer one.
 
-# Let's use the Kaggle depression data set from the previous chunk to observe these subset methods.
+# Let's use the Kaggle depression data set
 dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
 str(dep_scores)
 
-# First, we will look at CASE-WISE subsetting. There is a 'days' column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
+# First, we will look at CASE-WISE subsetting. There is a 'days' column, which we will 
+# assume refers to the number of days that any given subject has been in the study. 
+# Under this assumption, we will subset the subjects who have only been in the study 
+# for at least 2 weeks
 subset_twowksubs <- dep_scores[dep_scores$days > 13, ]
 View(subset_twowksubs)
 # Now, it will return cases that are 2 weeks old or older! Thus, case-wise subsetting
 
-# It's time to look at LIST-WISE subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for 'concatenate', or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
+# It's time to look at LIST-WISE subsetting, which is more focused on certain columns, 
+# or variables, within your df. Our Kaggle data set contains many different variables, 
+# allowing us to explore this method.When using this method, we use the c() function 
+# which stands for 'concatenate', or join together. Essentially, it is a function that 
+# allows you to create a vector or string of columns, the ones you are most interested 
+# in seeing.
 
-# You will notice that we start the [] section of the following code with a ','. This simply means that we will be including all of the rows in the data set. The same goes for the opposite regarding columns, as you may have seen earlier.
+# You will notice that we start the [] section of the following code with a ','. This 
+# simply means that we will be including all of the rows in the data set. The same 
+# goes for the opposite regarding columns, as you may have seen earlier.
 listwise_subs <- dep_scores[ , c("age", "afftype", "edu")]
 View(listwise_subs)
 ```
@@ -134,7 +182,9 @@ View(listwise_subs)
 #### grep! this function is from base R, and is used when pattern maqtching is needed, in this case, for a subset of prefixed rows.
 
 ```{r}
-# For our Kaggle data set, there appears to be two prefixes in the 'number' column. This chunk will show you how to subset the 'condition_' prefix group and the 'control_' group out of the data set. This might serve useful later on!**
+# For our Kaggle data set, there appears to be two prefixes in the 'number' column. 
+# This chunk will show you how to subset the 'condition_' prefix group and the 
+#'control_' group out of the data set. This might serve useful later on!**
 dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
 print(dep_scores)
 
@@ -151,7 +201,11 @@ str(control_df)
 
 ### ifelse()
 ```{r}
-#Here we are creating a new variable "Current_Med_String" to have strings of what was in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This is an if else statemnet, It will look at all rows checking if "current_med" is equal to ("==") 1. if that is TRUE, "Current_Med_String" for that row will not equal "Meds", if it is not true (FALSE), it will return its ELSE statement "noMeds".
+#Here we are creating a new variable "Current_Med_String" to have strings of what was 
+#in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This 
+#is an if else statemnet, It will look at all rows checking if "current_med" is equal 
+#to ("==") 1. if that is TRUE, "Current_Med_String" for that row will not equal "Meds", 
+#if it is not true (FALSE), it will return its ELSE statement "noMeds".
 DATA$Current_Med_String <- ifelse(DATA$Current_Med == 1, "Meds", "noMeds")
 ```
 
@@ -160,7 +214,8 @@ DATA$Current_Med_String <- ifelse(DATA$Current_Med == 1, "Meds", "noMeds")
 ##### Below are some very useful examples that Johanna offered as alternatives to the more complex syntax or functions previously mentioned
 
 ```{r subset alt, include=TRUE, echo=TRUE}
-# This code chunk contains many different ways to extract rows and columns with more simple syntax.
+# This code chunk contains many different ways to extract rows and columns with more 
+# simple syntax.
 dep_scores[,] # all rows and all columns
 dep_scores[1,] #first row and all columns
 dep_scores[1:10,] #first 10 rows and all columns
@@ -172,8 +227,12 @@ dep_scores[c(1,3),1:10] #first and third row and the first 10 columns
 ##### Let's say we had a data frame, but in our subject's row3, there is a prefix called "sub\_". This means that each case is represented as 'sub_XXXX'. If I wanted to remove that prefixd, or any prefixes for that matter, I would use substringing! Substringing is useful when you know the specific ranges or positions that you want to call for. In this case, we know that the last 4 characters are the ID, and we don't need the prefix. This code will show you how to solve this problem, so that subjects are only represented by integers, not a prefix as well.
 
 ```{r substringing, include=T, echo=T}
-# To stay consistent, we will first create a simple data set wi9thin our code to visualize and practice substringing. After that, we will explore the Kaggle depression data set.
-# Substr() takes three arguments: the character vector being modified, the starting position, and the ending position. the starting/ending position i8s pre-determined by the specific range/position of the charcter vector you are interested in. In this case, we want to start at'5' and end at '8'.
+# To stay consistent, we will first create a simple data set wi9thin our code to visualize 
+# and practice substringing. After that, we will explore the Kaggle depression data set.
+# Substr() takes three arguments: the character vector being modified, the starting position, 
+# and the ending position. the starting/ending position i8s pre-determined by the specific 
+# range/position of the charcter vector you are interested in. In this case, we want to start 
+# at'5' and end at '8'.
 
 #First, create the df
 substr_df <- data.frame(
@@ -193,22 +252,30 @@ print(substr_df)
 dep_scores <- read_csv("scores.csv", show_col_types = FALSE)
 str(dep_scores)
 
-# Using str() allows me to peek at the names of the rows that pertain to certain subjects. What I notice about the Kaggle data set is that there is a prefix "condition_" that comes before each subject id, as well as a "control_" prefix. I will provide the method of using sub() and substr().
+# Using str() allows me to peek at the names of the rows that pertain to certain subjects. 
+# What I notice about the Kaggle data set is that there is a prefix "condition_" that 
+# comes before each subject id, as well as a "control_" prefix. I will provide the 
+# method of using sub() and substr().
 
 # First, the method using sub()
 dep_scores$number <- sub("^condition_|^control_", "", dep_scores$number)
 print(dep_scores)
 
-# I want to emphasize that we only practiced that method for the sake of practice. It may be counterproductive to remove the prefixes because they offer info about the subject data that could be crucial later on. Think before using this method what the programmatic implications are.
+# I want to emphasize that we only practiced that method for the sake of practice. It 
+# may be counterproductive to remove the prefixes because they offer info about the 
+# subject data that could be crucial later on. Think before using this method what the 
+# programmatic implications are.
 ```
 
 ### DURING-Session REFLECTION
 
-##### I want to thank Krupali, who helped me find my way when navigating this software. I was in need of some short-term goals, and she helped contextualize RStudio in a way that inspired me to get back to the computer and keep gouing! Thank you, Krupali!
+##### I want to thank Krupali, who helped me find my way when navigating this software. I was in need of some short-term goals, and she helped contextualize RStudio in a way that inspired me to get back to the computer and keep going! Thank you, Krupali!
 
 ##### I need to look more into ifelse() statements and levelling
 
 ##### I noticed myself deviating from Johanna's videos and using the internet for some troubleshooting which I think is totally fine, however it ended up costing me time and cognitive load, because had I finished watching the video from Week 2, I wouldv'e learned many functions or concepts that I had trouble understanding. Instead of following her videos or even the Rmd files, I was just asking the internet for answers to questions I didn't end up needing an answer to. While I don't think it isn wise to follow only one source of content, I must realize that these skills are only useful if they make sense in your specific environment, TEND lab. If I receive advice from the internet, they won't understand the full context of the probloems i am trying to solve. THAT, is why I believe following the recordings/markdown/schedule will allow me to set realistic, useful, and short-term goals for learning RStudio and how to be of use to my peers!
+
+#### My within-codechunk comments are becoming very long, and I ran into a problem when knitting that made the comments continue running off the page. While this wasn't a problem, it made me think about my comments in general and i think they are running long. Don't add words just to add words. the more effective you are with your words, the more emphasis you can put on certain ideas.
 
 ### POST-Session REFLECTION
 

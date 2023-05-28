@@ -357,17 +357,21 @@ display: none;
 </div>
 
 
-<pre class="r"><code>knitr::opts_chunk$set(root.dir = &quot;C:\\Users\\adcre\\OneDrive\\
-                      Documents\\Desktop_RStudio&quot;,
-                      echo = TRUE)
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>## here() starts at C:/Users/adcre/OneDrive/Documents/Desktop_RStudio</code></pre>
+<pre class="r"><code>#tells you full file path of script in it current location
+here::i_am(&quot;TEND_Subsetting_Data.Rmd&quot;)</code></pre>
+<pre><code>## here() starts at C:/Users/adcre/OneDrive/Documents/Desktop_RStudio</code></pre>
+<pre class="r"><code>#returns file path of where the script is current saved
+here()</code></pre>
+<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/Desktop_RStudio&quot;</code></pre>
+<pre class="r"><code>#sets the working directory to be wherever your source file or Rmd is
+setwd(here())
+
 getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/R_Programming/TEND&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/Desktop_RStudio&quot;</code></pre>
 <div id="adding-librariespackages" class="section level2">
 <h2>Adding libraries/packages</h2>
-<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.2.3</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.2     ✔ readr     2.1.4
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
@@ -377,19 +381,22 @@ getwd()</code></pre>
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre><code>## Warning: package &#39;psych&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## 
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+## 
 ## Attaching package: &#39;psych&#39;
+## 
 ## 
 ## The following objects are masked from &#39;package:ggplot2&#39;:
 ## 
 ##     %+%, alpha
 ## 
 ## 
+## 
 ## Please cite as: 
 ## 
+## 
 ##  Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+## 
 ##  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer</code></pre>
 </div>
 <div id="r-markdown" class="section level2">
@@ -419,7 +426,8 @@ the syntax will be learned with time and practice.</h5>
 structure that is created within the chunk. In the interest of truly
 being able to apply these skills, I will use a df imported from Kaggle
 after this code chunk in order to test it in a real-life situation.</h5>
-<pre class="r"><code># We will first create a df that allows us to visualize subsetting, and learn the syntax used to call for certain variables like people aged over 30.
+<pre class="r"><code># We will first create a df that allows us to visualize subsetting, and learn the 
+# syntax used to call for certain variables like people aged over 30.
 
 # Create a data frame
 df &lt;- data.frame(
@@ -436,7 +444,10 @@ print(df)</code></pre>
 ## 3   David  28    Paris
 ## 4   Sarah  35    Tokyo
 ## 5 Michael  30   Sydney</code></pre>
-<pre class="r"><code># Notice the use of brackets[] and a dollar sign$ to indicate that you want to subset, and that you would like to subset a specific column, respectively. In this example, we also pass a condition that the Age must be greater than 30. In other words, I want to see the data for participants over 30 years old.
+<pre class="r"><code># Notice the use of brackets[] and a dollar sign$ to indicate that you want to 
+# subset, and that you would like to subset a specific column, respectively. In 
+# this example, we also pass a condition that the Age must be greater than 30. 
+# In other words, I want to see the data for participants over 30 years old.
 
 # Subset the data frame by age, specifically ppl over the age of 30
 subset_df &lt;- df[df$Age &gt; 30, ]
@@ -467,7 +478,8 @@ Brain_Data &lt;- read.csv(&quot;Brain_Data.csv&quot;, header=T, sep=&quot;,&quot
 Behavioral_Data&lt;-read.csv(&quot;Bx_Data.csv&quot;, header=T, sep=&quot;,&quot;, na.strings=c(&quot;NA&quot;, &quot;888&quot;, &quot;999&quot;))
 DATA &lt;- merge(Brain_Data, Behavioral_Data, &quot;ID&quot;, all=T)
 
-# With this line of code, we are extracting all of the cases that did not have missing values in the specified column. 
+# With this line of code, we are extracting all of the cases that did not have missing 
+# values in the specified column. 
 SUBdata&lt;- subset(DATA, !is.na(DATA$CDRSR_total) &amp; !is.na(DATA$RSFC1))
 View(SUBdata)</code></pre>
 </div>
@@ -479,7 +491,8 @@ Kaggle: <a href="https://www.kaggle.com/datasets/arashnic/the-depression-dataset
 </div>
 <div id="this-data-set-is-represented-as-scores.csvin-my-files" class="section level5">
 <h5>This data set is represented as ’scores.csv’in my Files</h5>
-<pre class="r"><code># First, I will load in the scores from the selected dataset. It can be done many ways, and should be well understood at this point.
+<pre class="r"><code># First, I will load in the scores from the selected dataset. It can be done many 
+# ways, and should be well understood at this point.
 dep_scores &lt;- read_csv(&quot;scores.csv&quot;)</code></pre>
 <pre><code>## Rows: 55 Columns: 12
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -519,7 +532,14 @@ dep_scores &lt;- read_csv(&quot;scores.csv&quot;)</code></pre>
 ##   ..   madrs2 = col_double()
 ##   .. )
 ##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
-<pre class="r"><code># By using str(), I can view the different columns by name. This is essentially a list of the variables that you can subset by, and we will try our best to navigate through this data via subsetting and adding conditions. Off the bat, we notice that there is indeed an age column. HOWEVER, it is actually in character form, not numeric!! This is because the creator of this data set has made columns that represent age ranges rather than putting the age as a column for any number. This slightly changes the code we will use to subset certain ages, but we will be doing effectively the same job.
+<pre class="r"><code># By using str(), I can view the different columns by name. This is essentially a 
+# list of the variables that you can subset by, and we will try our best to 
+# navigate through this data via subsetting and adding conditions. Off the bat, 
+# we notice that there is indeed an age column. HOWEVER, it is actually in 
+# character form, not numeric!! This is because the creator of this data set has 
+# made columns that represent age ranges rather than putting the age as a column 
+# for any number. This slightly changes the code we will use to subset certain 
+# ages, but we will be doing effectively the same job.
 dep_subset &lt;- dep_scores[dep_scores$age == &quot;40-44&quot;, ]
 print(dep_subset)</code></pre>
 <pre><code>## # A tibble: 5 × 12
@@ -531,18 +551,28 @@ print(dep_subset)</code></pre>
 ## 4 control_8       13      2 40-44      NA      NA        NA &lt;NA&gt;        NA    NA
 ## 5 control_16      13      2 40-44      NA      NA        NA &lt;NA&gt;        NA    NA
 ## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
-<pre class="r"><code># Notice that we used &#39;==&quot; instead of the logical condition &#39;&lt;&#39; or &#39;&gt;&#39;. So, rather than calling for subjects older than 30 years, we are calling for an age range 40-44 by calling for the specific character string &#39;40-44&#39;. 
-# What if I wanted to call for a specific ID? There is a &#39;number&#39; column, and each subject is either represented by &#39;condition_X&#39; or &#39;control_X&#39;, for example. This will actually be done by the same syntax as the age range subset example above, because they are represented by character strings.
+<pre class="r"><code># Notice that we used &#39;==&quot; instead of the logical condition &#39;&lt;&#39; or &#39;&gt;&#39;. Rather than 
+# calling for subjects older than 30 years, we are calling for an age range 40-44 by 
+# calling for the specific character string &#39;40-44&#39;. 
+# 
+# What if I wanted to call for a specific ID? There is a &#39;number&#39; column, and each 
+# subject is either represented by &#39;condition_X&#39; or &#39;control_X&#39;, for example. This 
+# will actually be done by the same syntax as the age range subset example above, 
+# because they are represented by character strings.
 test_subject1 &lt;- dep_scores[dep_scores$number == &quot;condition_1&quot;, ]
 control_subject1 &lt;- dep_scores[dep_scores$number == &quot;control_1&quot;, ]
 
 View(control_subject1)
 View(test_subject1)
 
-# After looking further into the data, I noticed that the &#39;gender&#39; column has 1&#39;s and 2&#39;s, 1 presumably representing male subjects. This allows us to create a new variable, &#39;male_subjects&#39; for example.
+# After looking further into the data, I noticed that the &#39;gender&#39; column has 1&#39;s 
+# and 2&#39;s, 1 presumably representing male subjects. This allows us to create a new 
+# variable, &#39;male_subjects&#39; for example.
 male_subject_dep &lt;- dep_scores[dep_scores$gender == 1, ]
 
-# Let&#39;s go one step further and subset by age AND gender by using the &#39;&amp;&#39; operator in the brackets.Make sure to assign variables to your subsets, so that they can be referenced later in the code.
+# Let&#39;s go one step further and subset by age AND gender by using the &#39;&amp;&#39; operator 
+# in the brackets.Make sure to assign variables to your subsets, so that they can be 
+# referenced later in the code.
 new_subset &lt;- dep_scores[dep_scores$gender == 2 &amp;
                             dep_scores$age == &quot;45-49&quot;, ]
 View(new_subset)</code></pre>
@@ -558,10 +588,14 @@ and when would you use them?</h5>
 <h6>To quote GPT-4, “In summary, case-wise subsetting involves selecting
 specific rows based on conditions, while list-wise subsetting involves
 selecting specific columns.”</h6>
-<pre class="r"><code># Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You could set criteria for the rows you would like returned, or specify one case you are interested in
-# List-wise, on the other hand, is for when we would like to include all of the data from specific variables, or columns. Almost as if you chop down unwanted columns from the data frame to create a new, slimmer one. This is how you are using a magnifying glass with subsetting!
+<pre class="r"><code># Case-wise refers to subsetting for a specific cases, or ROWS, of the data frame. You 
+# could set criteria for the rows you would like returned, or specify one case you are 
+# interested in
+# List-wise, on the other hand, is for when we would like to include all of the data 
+# from specific variables, or columns. Almost as if you chop down unwanted columns from 
+# the data frame to create a new, slimmer one.
 
-# Let&#39;s use the Kaggle depression data set from the previous chunk to observe these subset methods.
+# Let&#39;s use the Kaggle depression data set
 dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
 str(dep_scores)</code></pre>
 <pre><code>## spc_tbl_ [55 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
@@ -593,14 +627,24 @@ str(dep_scores)</code></pre>
 ##   ..   madrs2 = col_double()
 ##   .. )
 ##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
-<pre class="r"><code># First, we will look at CASE-WISE subsetting. There is a &#39;days&#39; column, which we will assume refers to the number of days that any given subject has been in the study. Under this assumption, we will subset the subjects who have only been in the study for at least 2 weeks
+<pre class="r"><code># First, we will look at CASE-WISE subsetting. There is a &#39;days&#39; column, which we will 
+# assume refers to the number of days that any given subject has been in the study. 
+# Under this assumption, we will subset the subjects who have only been in the study 
+# for at least 2 weeks
 subset_twowksubs &lt;- dep_scores[dep_scores$days &gt; 13, ]
 View(subset_twowksubs)
 # Now, it will return cases that are 2 weeks old or older! Thus, case-wise subsetting
 
-# It&#39;s time to look at LIST-WISE subsetting, which is more focused on certain columns, or variables, within your df. Our Kaggle data set contains many different variables, allowing us to explore this method.When using this method, we use the c() function which stands for &#39;concatenate&#39;, or join together. Essentially, it is a function that allows you to create a vector or string of columns, the ones you are most interested in seeing.
+# It&#39;s time to look at LIST-WISE subsetting, which is more focused on certain columns, 
+# or variables, within your df. Our Kaggle data set contains many different variables, 
+# allowing us to explore this method.When using this method, we use the c() function 
+# which stands for &#39;concatenate&#39;, or join together. Essentially, it is a function that 
+# allows you to create a vector or string of columns, the ones you are most interested 
+# in seeing.
 
-# You will notice that we start the [] section of the following code with a &#39;,&#39;. This simply means that we will be including all of the rows in the data set. The same goes for the opposite regarding columns, as you may have seen earlier.
+# You will notice that we start the [] section of the following code with a &#39;,&#39;. This 
+# simply means that we will be including all of the rows in the data set. The same 
+# goes for the opposite regarding columns, as you may have seen earlier.
 listwise_subs &lt;- dep_scores[ , c(&quot;age&quot;, &quot;afftype&quot;, &quot;edu&quot;)]
 View(listwise_subs)</code></pre>
 </div>
@@ -608,7 +652,9 @@ View(listwise_subs)</code></pre>
 <div id="grep-this-function-is-from-base-r-and-is-used-when-pattern-maqtching-is-needed-in-this-case-for-a-subset-of-prefixed-rows." class="section level4">
 <h4>grep! this function is from base R, and is used when pattern
 maqtching is needed, in this case, for a subset of prefixed rows.</h4>
-<pre class="r"><code># For our Kaggle data set, there appears to be two prefixes in the &#39;number&#39; column. This chunk will show you how to subset the &#39;condition_&#39; prefix group and the &#39;control_&#39; group out of the data set. This might serve useful later on!**
+<pre class="r"><code># For our Kaggle data set, there appears to be two prefixes in the &#39;number&#39; column. 
+# This chunk will show you how to subset the &#39;condition_&#39; prefix group and the 
+#&#39;control_&#39; group out of the data set. This might serve useful later on!**
 dep_scores &lt;- read_csv(&quot;scores.csv&quot;, show_col_types = FALSE)
 print(dep_scores)</code></pre>
 <pre><code>## # A tibble: 55 × 12
@@ -664,7 +710,11 @@ str(condition_df)</code></pre>
 </div>
 <div id="ifelse" class="section level3">
 <h3>ifelse()</h3>
-<pre class="r"><code>#Here we are creating a new variable &quot;Current_Med_String&quot; to have strings of what was in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This is an if else statemnet, It will look at all rows checking if &quot;current_med&quot; is equal to (&quot;==&quot;) 1. if that is TRUE, &quot;Current_Med_String&quot; for that row will not equal &quot;Meds&quot;, if it is not true (FALSE), it will return its ELSE statement &quot;noMeds&quot;.
+<pre class="r"><code>#Here we are creating a new variable &quot;Current_Med_String&quot; to have strings of what was 
+#in numeric 1s (yes) and 0s (no) of whether someone was current on medications. This 
+#is an if else statemnet, It will look at all rows checking if &quot;current_med&quot; is equal 
+#to (&quot;==&quot;) 1. if that is TRUE, &quot;Current_Med_String&quot; for that row will not equal &quot;Meds&quot;, 
+#if it is not true (FALSE), it will return its ELSE statement &quot;noMeds&quot;.
 DATA$Current_Med_String &lt;- ifelse(DATA$Current_Med == 1, &quot;Meds&quot;, &quot;noMeds&quot;)</code></pre>
 </div>
 </div>
@@ -674,7 +724,8 @@ DATA$Current_Med_String &lt;- ifelse(DATA$Current_Med == 1, &quot;Meds&quot;, &q
 <h5>Below are some very useful examples that Johanna offered as
 alternatives to the more complex syntax or functions previously
 mentioned</h5>
-<pre class="r"><code># This code chunk contains many different ways to extract rows and columns with more simple syntax.
+<pre class="r"><code># This code chunk contains many different ways to extract rows and columns with more 
+# simple syntax.
 dep_scores[,] # all rows and all columns</code></pre>
 <pre><code>## # A tibble: 55 × 12
 ##    number       days gender age   afftype melanch inpatient edu   marriage  work
@@ -730,8 +781,12 @@ the specific ranges or positions that you want to call for. In this
 case, we know that the last 4 characters are the ID, and we don’t need
 the prefix. This code will show you how to solve this problem, so that
 subjects are only represented by integers, not a prefix as well.</h5>
-<pre class="r"><code># To stay consistent, we will first create a simple data set wi9thin our code to visualize and practice substringing. After that, we will explore the Kaggle depression data set.
-# Substr() takes three arguments: the character vector being modified, the starting position, and the ending position. the starting/ending position i8s pre-determined by the specific range/position of the charcter vector you are interested in. In this case, we want to start at&#39;5&#39; and end at &#39;8&#39;.
+<pre class="r"><code># To stay consistent, we will first create a simple data set wi9thin our code to visualize 
+# and practice substringing. After that, we will explore the Kaggle depression data set.
+# Substr() takes three arguments: the character vector being modified, the starting position, 
+# and the ending position. the starting/ending position i8s pre-determined by the specific 
+# range/position of the charcter vector you are interested in. In this case, we want to start 
+# at&#39;5&#39; and end at &#39;8&#39;.
 
 #First, create the df
 substr_df &lt;- data.frame(
@@ -783,7 +838,10 @@ str(dep_scores)</code></pre>
 ##   ..   madrs2 = col_double()
 ##   .. )
 ##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
-<pre class="r"><code># Using str() allows me to peek at the names of the rows that pertain to certain subjects. What I notice about the Kaggle data set is that there is a prefix &quot;condition_&quot; that comes before each subject id, as well as a &quot;control_&quot; prefix. I will provide the method of using sub() and substr().
+<pre class="r"><code># Using str() allows me to peek at the names of the rows that pertain to certain subjects. 
+# What I notice about the Kaggle data set is that there is a prefix &quot;condition_&quot; that 
+# comes before each subject id, as well as a &quot;control_&quot; prefix. I will provide the 
+# method of using sub() and substr().
 
 # First, the method using sub()
 dep_scores$number &lt;- sub(&quot;^condition_|^control_&quot;, &quot;&quot;, dep_scores$number)
@@ -803,16 +861,19 @@ print(dep_scores)</code></pre>
 ## 10 10         9      2 45-49       2       2         2 6-10         1     2
 ## # ℹ 45 more rows
 ## # ℹ 2 more variables: madrs1 &lt;dbl&gt;, madrs2 &lt;dbl&gt;</code></pre>
-<pre class="r"><code># I want to emphasize that we only practiced that method for the sake of practice. It may be counterproductive to remove the prefixes because they offer info about the subject data that could be crucial later on. Think before using this method what the programmatic implications are.</code></pre>
+<pre class="r"><code># I want to emphasize that we only practiced that method for the sake of practice. It 
+# may be counterproductive to remove the prefixes because they offer info about the 
+# subject data that could be crucial later on. Think before using this method what the 
+# programmatic implications are.</code></pre>
 </div>
 </div>
 <div id="during-session-reflection" class="section level3">
 <h3>DURING-Session REFLECTION</h3>
-<div id="i-want-to-thank-krupali-who-helped-me-find-my-way-when-navigating-this-software.-i-was-in-need-of-some-short-term-goals-and-she-helped-contextualize-rstudio-in-a-way-that-inspired-me-to-get-back-to-the-computer-and-keep-gouing-thank-you-krupali" class="section level5">
+<div id="i-want-to-thank-krupali-who-helped-me-find-my-way-when-navigating-this-software.-i-was-in-need-of-some-short-term-goals-and-she-helped-contextualize-rstudio-in-a-way-that-inspired-me-to-get-back-to-the-computer-and-keep-going-thank-you-krupali" class="section level5">
 <h5>I want to thank Krupali, who helped me find my way when navigating
 this software. I was in need of some short-term goals, and she helped
 contextualize RStudio in a way that inspired me to get back to the
-computer and keep gouing! Thank you, Krupali!</h5>
+computer and keep going! Thank you, Krupali!</h5>
 </div>
 <div id="i-need-to-look-more-into-ifelse-statements-and-levelling" class="section level5">
 <h5>I need to look more into ifelse() statements and levelling</h5>
@@ -832,6 +893,14 @@ understand the full context of the probloems i am trying to solve. THAT,
 is why I believe following the recordings/markdown/schedule will allow
 me to set realistic, useful, and short-term goals for learning RStudio
 and how to be of use to my peers!</h5>
+</div>
+<div id="my-within-codechunk-comments-are-becoming-very-long-and-i-ran-into-a-problem-when-knitting-that-made-the-comments-continue-running-off-the-page.-while-this-wasnt-a-problem-it-made-me-think-about-my-comments-in-general-and-i-think-they-are-running-long.-dont-add-words-just-to-add-words.-the-more-effective-you-are-with-your-words-the-more-emphasis-you-can-put-on-certain-ideas." class="section level4">
+<h4>My within-codechunk comments are becoming very long, and I ran into
+a problem when knitting that made the comments continue running off the
+page. While this wasn’t a problem, it made me think about my comments in
+general and i think they are running long. Don’t add words just to add
+words. the more effective you are with your words, the more emphasis you
+can put on certain ideas.</h4>
 </div>
 </div>
 <div id="post-session-reflection" class="section level3">
