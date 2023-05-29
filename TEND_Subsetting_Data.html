@@ -372,6 +372,9 @@ setwd(here())
 getwd()</code></pre>
 <pre><code>## [1] &quot;C:/Users/adcre/OneDrive/Documents/Desktop_RStudio&quot;</code></pre>
 </div>
+<div id="r-markdown-1" class="section level2">
+<h2>R Markdown</h2>
+</div>
 <div id="adding-librariespackages" class="section level2">
 <h2>Adding libraries/packages</h2>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -401,27 +404,6 @@ getwd()</code></pre>
 ## 
 ##  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer</code></pre>
 </div>
-<div id="r-markdown-1" class="section level2">
-<h2>R Markdown</h2>
-<div id="this-markdown-will-serve-as-a-reference-sheet-for-different-subsetting-methods-packages-applications-and-more.-more-specifically-how-to-subset-data-casewise-listwise-by-id-or-by-variable.-having-a-large-and-complex-df-could-prevent-you-from-gaining-insight-about-specific-data.-having-the-ability-to-call-for-certain-id-numbers-or-variables-like-gender-or-age-allows-you-to-use-a-magnifying-glass-on-your-large-df.-i-also-plan-on-learning-and-practicing-substringing-values-and-being-able-to-remove-the-sub-from-sub-xxxx-in-the-subject-id-column.-the-key-differences-between-substringing-and-subsetting-is-that-substringing-is-applied-to-character-strings-like-text-files-and-can-output-specific-ranges-or-positions-in-a-long-character-string.-a-subset-is-more-widely-used-because-it-can-be-applied-to-data-frames-and-other-data-structures.-based-off-of-certain-arguments-or-criteria-a-subset-can-give-you-a-closer-look-on-specific-points-in-your-data-structure.-subsets-are-represented-by-brackets-and-more-of-the-syntax-will-be-learned-with-time-and-practice." class="section level5">
-<h5>This markdown will serve as a reference sheet for different
-subsetting methods, packages, applications, and more. More specifically,
-how to subset data casewise, listwise, by ID, or by variable. Having a
-large and complex df could prevent you from gaining insight about
-specific data. Having the ability to call for certain ID numbers or
-variables, like gender or age, allows you to use a magnifying glass on
-your large df. I also plan on learning and practicing substringing
-values, and being able to remove the “sub” from “sub-xxxx” in the
-subject ID column. The key differences between substringing and
-subsetting is that substringing is applied to character strings like
-text files, and can output specific ranges or positions in a long
-character string. A subset is more widely used because it can be applied
-to data frames and other data structures. Based off of certain arguments
-or criteria, a subset can give you a closer look on specific points in
-your data structure. Subsets are represented by brackets[], and more of
-the syntax will be learned with time and practice.</h5>
-</div>
-</div>
 <div id="subsetting" class="section level2">
 <h2>Subsetting</h2>
 <div id="the-first-code-chunk-will-be-examples-of-subsetting-on-a-simple-data-structure-that-is-created-within-the-chunk.-in-the-interest-of-truly-being-able-to-apply-these-skills-i-will-use-a-df-imported-from-kaggle-after-this-code-chunk-in-order-to-test-it-in-a-real-life-situation." class="section level5">
@@ -445,10 +427,10 @@ print(df)</code></pre>
 ## 3   David  28    Paris
 ## 4   Sarah  35    Tokyo
 ## 5 Michael  30   Sydney</code></pre>
-<pre class="r"><code># Notice the use of brackets[] and a dollar sign$ to indicate that you want to 
-# subset, and that you would like to subset a specific column, respectively. In 
-# this example, we also pass a condition that the Age must be greater than 30. 
-# In other words, I want to see the data for participants over 30 years old.
+<pre class="r"><code># Notice the use of brackets[] and a dollar sign$ to indicate that you want to subset, 
+# and that you would like to subset a specific column, respectively. In this example, 
+# we also pass a condition that the Age must be greater than 30.In other words, I want 
+# to see the data for participants over 30 years old.
 
 # Subset the data frame by age, specifically ppl over the age of 30
 subset_df &lt;- df[df$Age &gt; 30, ]
@@ -459,8 +441,8 @@ print(subset_df)</code></pre>
 ## 2 Emily  32 London
 ## 4 Sarah  35  Tokyo</code></pre>
 </div>
-<div id="quick-note-is.na" class="section level3">
-<h3>Quick note: is.na()</h3>
+<div id="quick-note-is.na" class="section level4">
+<h4>Quick note: is.na()</h4>
 <div id="a-logical-function-that-checks-the-given-the-data-structure-and-returns-true-if-there-are-missing-values" class="section level5">
 <h5>a logical function that checks the given the data structure and
 returns TRUE if there are missing values</h5>
@@ -472,24 +454,42 @@ returns TRUE if there are missing values</h5>
 Behavioral_Data&lt;-read.csv(&quot;Bx_Data.csv&quot;, header=T, sep=&quot;,&quot;, na.strings=c(&quot;NA&quot;, &quot;888&quot;, &quot;999&quot;))
 DATA &lt;- merge(Brain_Data, Behavioral_Data, &quot;ID&quot;, all=T)
 
-# Now, we will use na.rm(), which effectively reads over the data and still averages the variables that are there by requiring that it only averages values that are &quot;numeric&quot;. We use c() within our subset to average across multiple columns
+# Now, we will use na.rm(), which effectively reads over the data and still averages 
+# the variables that are there by requiring that it only averages values that are &quot;numeric&quot;. We use 
+# c() within our subset to average across multiple columns
 DATA$RADS_average&lt;- rowMeans(DATA[,c(&quot;RADS_DM&quot;, &quot;RADS_AN&quot;,  &quot;RADS_NS&quot;,  &quot;RADS_SC&quot;)], na.rm=TRUE) </code></pre>
 </div>
 <div id="creating-nas" class="section level3">
 <h3>creating NAs</h3>
-<pre class="r"><code>#This is one way to specifically change certain data into NA. More specifically, I want to remove any values that are greater than 21. Other conditions can be made, of course.
+<pre class="r"><code># This is one way to specifically change certain data into NA. More specifically, I want 
+# to change any missing values into NAs that are greater than 21. Other conditions can 
+# be made, of course.
 DATA$Bx_to_Scan_Days[DATA$Bx_to_Scan_Days &gt; 21] &lt;- NA
 
-##If you want to take out a specific variable (like an outlier). You can use &quot;which&quot; or &quot;grep&quot; (grep additionally allows for partial variable matches). grep() was used because it will catch patterns, this one being &#39;107&#39;, the subID we are interested in removing. This is one of many ways to solve the same problem
+## If you want to take out a specific variable (like an outlier). You can use &quot;which&quot; 
+## or &quot;grep&quot; (grep additionally allows for partial variable matches). grep() was used 
+## because it will catch patterns, this one being &#39;107&#39;, the subID we are interested 
+## in removing. This is one of many ways to solve the same problem
 badid &lt;- grep(&#39;107&#39;, DATA$ID)
-# assign a variable to the subsetted DATA, which is essentially your data without the outlier that was specified in the former line.
+# assign variable to the subsetted DATA, which is essentially your data w/out outlier
+# was specified in the former line.
 DATAsub &lt;- DATA[-badid,]</code></pre>
 </div>
-<div id="removing-outliers" class="section level3">
-<h3>Removing outliers</h3>
-<pre class="r"><code># grep() is being used here to remove an outlier, assuming we know the characters/numbers etc of the data 
+<div id="removing-outliers-w-grep" class="section level3">
+<h3>Removing outliers w grep()</h3>
+<pre class="r"><code># grep() is being used here to remove an outlier, assuming we know the 
+# characters/numbers etc of the data. 
+# In this example, we know that case (or row) 107 is an outlier, a piece of data that 
+# has an unwanted effect on our descriptive stats, such as the mean
 badid &lt;- grep(&#39;107&#39;, DATA$ID)
 DATAsub &lt;- DATA[-badid,]</code></pre>
+</div>
+<div id="renaming-variables" class="section level3">
+<h3>Renaming Variables</h3>
+<pre class="r"><code># If you are wanting to rename multiple variables all a the same time you can use the 
+# following rename()
+DATA_Final &lt;- rename(DATA,&quot;Hx_Attempt&quot; = &quot;Hx.Attempt&quot;, &quot;Age_First.Attempt&quot; = 
+                        &quot;Age.First.Attempt&quot;,&quot;Number_of_Attempts&quot; = &quot;Number.of.Attempts&quot;)</code></pre>
 </div>
 <div id="operators" class="section level3">
 <h3>Operators</h3>
@@ -815,11 +815,11 @@ case, we know that the last 4 characters are the ID, and we don’t need
 the prefix. This code will show you how to solve this problem, so that
 subjects are only represented by integers, not a prefix as well.</h5>
 <pre class="r"><code># To stay consistent, we will first create a simple data set wi9thin our code to visualize 
-# and practice substringing. After that, we will explore the Kaggle depression data set.
-# Substr() takes three arguments: the character vector being modified, the starting position, 
-# and the ending position. the starting/ending position i8s pre-determined by the specific 
-# range/position of the charcter vector you are interested in. In this case, we want to start 
-# at&#39;5&#39; and end at &#39;8&#39;.
+# and practice substringing. After that, we will explore the Kaggle depression data set. 
+# Substr() takes three arguments: the character vector being modified, the starting 
+# position, and the ending position. the starting/ending position i8s pre-determined by 
+# the specific range/position of the charcter vector you are interested in. In this case, 
+# we want to start at&#39;5&#39; and end at &#39;8&#39;.
 
 #First, create the df
 substr_df &lt;- data.frame(
@@ -943,6 +943,13 @@ page. While this wasn’t a problem, it made me think about my comments in
 general and i think they are running long. Don’t add words just to add
 words. the more effective you are with your words, the more emphasis you
 can put on certain ideas.</h4>
+<div id="margin-columns-soft-wrapping-and-other-aesthetic-issues-came-up-when-knitting-during-the-making-of-this-markdown-and-i-seem-to-understand-it-a-lot-better.-however-we-havent-even-started-diving-deep-on-data-visualization-where-i-imagine-this-problem-is-only-exacerbated-and-more-cause-for-attentionconcern" class="section level5">
+<h5>Margin columns, soft-wrapping, and other aesthetic issues came up
+when knitting during the making of this markdown, and I seem to
+understand it a lot better. However, we haven’t even started diving deep
+on data visualization, where I imagine this problem is only exacerbated
+and more cause for attention/concern</h5>
+</div>
 </div>
 </div>
 <div id="post-session-reflection" class="section level3">

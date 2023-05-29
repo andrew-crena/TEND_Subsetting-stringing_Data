@@ -18,13 +18,15 @@ here()
 setwd(here())
 getwd()
 ```
+## R Markdown
 
 ## Adding libraries/packages
 ```{r prep, include=T, echo=F}
 library(tidyverse) 
-# Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for data tidying, 
-#'readr' for data import, 'purrr' for functional programming, 'tibble' for (tibbles) a modern 
-#'re-imagining of data frames, 'stringr' for strings, and'forcats' for factors
+# Loads 'ggplot2' for data visualization. 'dplyr' for data manipulation, 'tidyr' for 
+# data tidying, readr' for data import, 'purrr' for functional programming, 'tibble' 
+# for (tibbles) a modern re-imagining of data frames, 'stringr' for strings, and 
+#'forcats' for factors
 library(foreign) 
 # Read data stored by SPSS and Stata
 library(psych) 
@@ -35,11 +37,7 @@ library(stargazer)
 library(readr)
 ```
 
-## R Markdown
-##### This markdown will serve as a reference sheet for different subsetting methods, packages, applications, and more. More specifically, how to subset data casewise, listwise, by ID, or by variable. Having a large and complex df could prevent you from gaining insight about specific data. Having the ability to call for certain ID numbers or variables, like gender or age, allows you to use a magnifying glass on your large df. I also plan on learning and practicing substringing values, and being able to remove the "sub" from "sub-xxxx" in the subject ID column. The key differences between substringing and subsetting is that substringing is applied to character strings like text files, and can output specific ranges or positions in a long character string. A subset is more widely used because it can be applied to data frames and other data structures. Based off of certain arguments or criteria, a subset can give you a closer look on specific points in your data structure. Subsets are represented by brackets[], and more of the syntax will be learned with time and practice.
-
 ## Subsetting
-
 ##### The first code chunk will be examples of subsetting on a simple data structure that is created within the chunk. In the interest of truly being able to apply these skills, I will use a df imported from Kaggle after this code chunk in order to test it in a real-life situation.
 ```{r subset, include=TRUE, echo=TRUE}
 # We will first create a df that allows us to visualize subsets.
@@ -53,10 +51,10 @@ df <- data.frame(
 # Print the data frame
 print(df)
 
-# Notice the use of brackets[] and a dollar sign$ to indicate that you want to 
-# subset, and that you would like to subset a specific column, respectively. In 
-# this example, we also pass a condition that the Age must be greater than 30. 
-# In other words, I want to see the data for participants over 30 years old.
+# Notice the use of brackets[] and a dollar sign$ to indicate that you want to subset, 
+# and that you would like to subset a specific column, respectively. In this example, 
+# we also pass a condition that the Age must be greater than 30.In other words, I want 
+# to see the data for participants over 30 years old.
 
 # Subset the data frame by age, specifically ppl over the age of 30
 subset_df <- df[df$Age > 30, ]
@@ -65,7 +63,7 @@ subset_df <- df[df$Age > 30, ]
 print(subset_df)
 ```
 
-### Quick note: is.na()
+#### Quick note: is.na()
 ##### a logical function that checks the given the data structure and returns TRUE if there are missing values
 
 ### na.rm()
@@ -74,29 +72,46 @@ Brain_Data <- read.csv("Brain_Data.csv", header=T, sep=",", na.strings=c("NA", "
 Behavioral_Data<-read.csv("Bx_Data.csv", header=T, sep=",", na.strings=c("NA", "888", "999"))
 DATA <- merge(Brain_Data, Behavioral_Data, "ID", all=T)
 
-# Now, we will use na.rm(), which effectively reads over the data and still averages the variables that are there by requiring that it only averages values that are "numeric". We use c() within our subset to average across multiple columns
+# Now, we will use na.rm(), which effectively reads over the data and still averages 
+# the variables that are there by requiring that it only averages values that are "numeric". We use 
+# c() within our subset to average across multiple columns
 DATA$RADS_average<- rowMeans(DATA[,c("RADS_DM",	"RADS_AN",	"RADS_NS",	"RADS_SC")], na.rm=TRUE) 
 ```
 
 ### creating NAs
 ```{r more NA, include=TRUE, echo=TRUE}
-#This is one way to specifically change certain data into NA. More specifically, I want to remove any values that are greater than 21. Other conditions can be made, of course.
+# This is one way to specifically change certain data into NA. More specifically, I want 
+# to change any missing values into NAs that are greater than 21. Other conditions can 
+# be made, of course.
 DATA$Bx_to_Scan_Days[DATA$Bx_to_Scan_Days > 21] <- NA
 
-##If you want to take out a specific variable (like an outlier). You can use "which" or "grep" (grep additionally allows for partial variable matches). grep() was used because it will catch patterns, this one being '107', the subID we are interested in removing. This is one of many ways to solve the same problem
+## If you want to take out a specific variable (like an outlier). You can use "which" 
+## or "grep" (grep additionally allows for partial variable matches). grep() was used 
+## because it will catch patterns, this one being '107', the subID we are interested 
+## in removing. This is one of many ways to solve the same problem
 badid <- grep('107', DATA$ID)
-# assign a variable to the subsetted DATA, which is essentially your data without the outlier that was specified in the former line.
+# assign variable to the subsetted DATA, which is essentially your data w/out outlier
+# was specified in the former line.
 DATAsub <- DATA[-badid,]
 ```
 
-### Removing outliers
+### Removing outliers w grep()
 ```{r outliers}
-# grep() is being used here to remove an outlier, assuming we know the characters/numbers etc of the data 
+# grep() is being used here to remove an outlier, assuming we know the 
+# characters/numbers etc of the data. 
+# In this example, we know that case (or row) 107 is an outlier, a piece of data that 
+# has an unwanted effect on our descriptive stats, such as the mean
 badid <- grep('107', DATA$ID)
 DATAsub <- DATA[-badid,]
-
 ```
 
+### Renaming Variables
+```{r renaming, include=TRUE, echo=TRUE}
+# If you are wanting to rename multiple variables all a the same time you can use the 
+# following rename()
+DATA_Final <- rename(DATA,"Hx_Attempt" = "Hx.Attempt", "Age_First.Attempt" = 
+                        "Age.First.Attempt","Number_of_Attempts" = "Number.of.Attempts")
+```
 
 ### Operators
 ##### operators like '!' and '&' can be useful when used properly, like in conjuction with functions within a code chunk. While they don't necessarily do anything powerful, they are very useful when used !
@@ -239,11 +254,11 @@ dep_scores[c(1,3),1:10] #first and third row and the first 10 columns
 ##### Let's say we had a data frame, but in our subject's row3, there is a prefix called "sub\_". This means that each case is represented as 'sub_XXXX'. If I wanted to remove that prefixd, or any prefixes for that matter, I would use substringing! Substringing is useful when you know the specific ranges or positions that you want to call for. In this case, we know that the last 4 characters are the ID, and we don't need the prefix. This code will show you how to solve this problem, so that subjects are only represented by integers, not a prefix as well.
 ```{r substringing, include=T, echo=T}
 # To stay consistent, we will first create a simple data set wi9thin our code to visualize 
-# and practice substringing. After that, we will explore the Kaggle depression data set.
-# Substr() takes three arguments: the character vector being modified, the starting position, 
-# and the ending position. the starting/ending position i8s pre-determined by the specific 
-# range/position of the charcter vector you are interested in. In this case, we want to start 
-# at'5' and end at '8'.
+# and practice substringing. After that, we will explore the Kaggle depression data set. 
+# Substr() takes three arguments: the character vector being modified, the starting 
+# position, and the ending position. the starting/ending position i8s pre-determined by 
+# the specific range/position of the charcter vector you are interested in. In this case, 
+# we want to start at'5' and end at '8'.
 
 #First, create the df
 substr_df <- data.frame(
@@ -282,5 +297,6 @@ print(dep_scores)
 ##### I need to look more into ifelse() statements and ordering/levelling
 ##### I noticed myself deviating from Johanna's videos and using the internet for some troubleshooting which I think is totally fine, however it ended up costing me time and cognitive load, because had I finished watching the video from Week 2, I wouldv'e learned many functions or concepts that I had trouble understanding. Instead of following her videos or even the Rmd files, I was just asking the internet for answers to questions I didn't end up needing an answer to. While I don't think it isn wise to follow only one source of content, I must realize that these skills are only useful if they make sense in your specific environment, TEND lab. If I receive advice from the internet, they won't understand the full context of the probloems i am trying to solve. THAT, is why I believe following the recordings/markdown/schedule will allow me to set realistic, useful, and short-term goals for learning RStudio and how to be of use to my peers!
 #### My within-codechunk comments are becoming very long, and I ran into a problem when knitting that made the comments continue running off the page. While this wasn't a problem, it made me think about my comments in general and i think they are running long. Don't add words just to add words. the more effective you are with your words, the more emphasis you can put on certain ideas.
+##### Margin columns, soft-wrapping, and other aesthetic issues came up when knitting during the making of this markdown, and I seem to understand it a lot better. However, we haven't even started diving deep on data visualization, where I imagine this problem is only exacerbated and more cause for attention/concern
 ### POST-Session REFLECTION
 ##### TBD....
